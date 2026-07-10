@@ -1,62 +1,13 @@
+import Hero from "@/components/ui/Hero";
 import Header from "@/components/ui/Header";
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-slate-50">
       <Header />
-  
+  <Hero/>
       {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-6 py-24 text-center">
-        <span className="rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700">
-          🚀 India's Smart Career Platform
-        </span>
-
-        <h1 className="mt-8 text-6xl font-extrabold text-slate-900">
-          Build Your Career With AI
-        </h1>
-
-        <p className="mx-auto mt-6 max-w-3xl text-xl text-slate-600">
-          Latest Government Jobs, Results, Admit Cards, Syllabus,
-          Answer Keys and AI Career Guidance — all in one place.
-        </p>
-
-        {/* Search Bar */}
-        <div className="mx-auto mt-10 max-w-3xl">
-          <input
-            type="text"
-            placeholder="🔍 Search Jobs, Results, Admit Cards..."
-            className="w-full rounded-2xl border border-slate-300 bg-white px-6 py-4 text-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-
-          <div className="mt-4 flex flex-wrap justify-center gap-3">
-            <span className="rounded-full bg-slate-100 px-4 py-2 text-sm">
-              SSC CGL
-            </span>
-            <span className="rounded-full bg-slate-100 px-4 py-2 text-sm">
-              UPSC
-            </span>
-            <span className="rounded-full bg-slate-100 px-4 py-2 text-sm">
-              Railway
-            </span>
-            <span className="rounded-full bg-slate-100 px-4 py-2 text-sm">
-              Police
-            </span>
-            <span className="rounded-full bg-slate-100 px-4 py-2 text-sm">
-              Banking
-            </span>
-          </div>
-        </div>
-
-        <div className="mt-10 flex justify-center gap-4">
-          <button className="rounded-xl bg-blue-600 px-8 py-4 font-semibold text-white hover:bg-blue-700">
-            Explore Jobs
-          </button>
-
-          <button className="rounded-xl border border-slate-300 px-8 py-4 font-semibold hover:bg-slate-100">
-            AI Career Guide
-          </button>
-        </div>
-      </section>
+     
 
       {/* Features Section */}
       <section className="max-w-7xl mx-auto px-6 pb-20">
@@ -107,7 +58,49 @@ export default function Home() {
             </p>
           </div>
         </div>
+      
       </section>
+      {/* Latest Jobs */}
+
+<section className="max-w-7xl mx-auto px-6 py-20">
+  <div className="flex items-center justify-between mb-8">
+    <h2 className="text-4xl font-bold">
+      🔥 Latest Government Jobs
+    </h2>
+
+    <button className="text-blue-600 font-semibold">
+      View All →
+    </button>
+  </div>
+
+  <div className="grid gap-6">
+
+    <div className="rounded-2xl bg-white p-6 shadow hover:shadow-lg transition">
+      <h3 className="text-2xl font-bold">
+        SSC CGL 2026 Recruitment
+      </h3>
+
+      <p className="mt-3 text-slate-600">
+        Last Date: 30 July 2026
+      </p>
+
+      <div className="mt-5 flex gap-3">
+        <span className="rounded-full bg-green-100 px-4 py-2 text-green-700">
+          Graduate
+        </span>
+
+        <span className="rounded-full bg-blue-100 px-4 py-2 text-blue-700">
+          Central Govt
+        </span>
+      </div>
+
+      <button className="mt-6 rounded-xl bg-blue-600 px-6 py-3 text-white">
+        Apply Now
+      </button>
+    </div>
+
+  </div>
+</section>
     </main>
   );
 }
