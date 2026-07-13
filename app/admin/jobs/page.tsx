@@ -1,3 +1,4 @@
+import DeleteButton from "@/components/admin/jobs/DeleteButton";
 import AdminLayout from "@/components/admin/layout/AdminLayout";
 import Link from "next/link";
 import { getJobs } from "@/services/jobs";
@@ -105,13 +106,19 @@ export default async function JobsPage() {
                     <td className="p-4">
                       {job.application_last_date}
                     </td>
-                    <td className="p-4">
-  <Link
-    href={`/admin/jobs/${job.id}`}
-    className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
-  >
-    Edit
-  </Link>
+                   <td className="p-4">
+  <div className="flex gap-3">
+
+    <Link
+      href={`/admin/jobs/${job.id}`}
+      className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+    >
+      Edit
+    </Link>
+
+    <DeleteButton id={job.id} />
+
+  </div>
 </td>
 
                   </tr>
