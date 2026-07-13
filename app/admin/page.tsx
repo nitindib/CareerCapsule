@@ -1,116 +1,76 @@
-"use client";
+import Link from "next/link";
 
-import { useState } from "react";
-import { supabase } from "@/lib/supabase";
-
-export default function AdminPage() {
-  const [title, setTitle] = useState("");
-  const [organization, setOrganization] = useState("");
-  const [postName, setPostName] = useState("");
-  const [qualification, setQualification] = useState("");
-  const [lastDate, setLastDate] = useState("");
-
-  const saveJob = async () => {
-    const { error } = await supabase.from("jobs").insert([
-      {
-        title: title,
-        organization: organization,
-        post_name: postName,
-        qualification: qualification,
-        application_last_date: lastDate,
-      },
-    ]);
-
-    if (error) {
-      alert(error.message);
-    } else {
-      alert("✅ Job Saved Successfully!");
-
-      setTitle("");
-      setOrganization("");
-      setPostName("");
-      setQualification("");
-      setLastDate("");
-    }
-  };
+export default function AdminDashboard() {
+  const cards = [
+    {
+      title: "Jobs",
+      description: "Manage Government Jobs",
+      href: "/admin/jobs",
+      emoji: "💼",
+    },
+    {
+      title: "Results",
+      description: "Manage Results",
+      href: "/admin/results",
+      emoji: "📢",
+    },
+    {
+      title: "Admit Cards",
+      description: "Manage Admit Cards",
+      href: "/admin/admit-cards",
+      emoji: "🎫",
+    },
+    {
+      title: "Government Schemes",
+      description: "Manage Schemes",
+      href: "/admin/schemes",
+      emoji: "🏛️",
+    },
+    {
+      title: "Admissions",
+      description: "Manage Admissions",
+      href: "/admin/admissions",
+      emoji: "🎓",
+    },
+    {
+      title: "Documents Hub",
+      description: "Manage Documents",
+      href: "/admin/documents",
+      emoji: "📄",
+    },
+  ];
 
   return (
-    <main className="min-h-screen bg-slate-100 p-10">
-      <div className="max-w-4xl mx-auto rounded-2xl bg-white p-8 shadow-xl">
-        <h1 className="mb-8 text-4xl font-bold">
+    <main className="min-h-screen bg-slate-100">
+      <div className="mx-auto max-w-7xl p-10">
+        <h1 className="mb-2 text-5xl font-bold">
           CareerCapsule Admin
         </h1>
 
-        <div className="grid gap-5">
-          <input
-            type="text"
-            placeholder="Job Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="border rounded-xl p-4"
-          />
+        <p className="mb-10 text-slate-600">
+          Manage everything from one dashboard.
+        </p>
 
-          <input
-            type="text"
-            placeholder="Organization"
-            value={organization}
-            onChange={(e) => setOrganization(e.target.value)}
-            className="border rounded-xl p-4"
-          />
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {cards.map((card) => (
+            <Link
+              key={card.title}
+              href={card.href}
+              className="rounded-2xl bg-white p-8 shadow transition hover:-translate-y-1 hover:shadow-xl"
+            >
+              <div className="text-5xl">
+                {card.emoji}
+              </div>
 
-          <input
-            type="text"
-            placeholder="Post Name"
-            value={postName}
-            onChange={(e) => setPostName(e.target.value)}
-            className="border rounded-xl p-4"
-          />
+              <h2 className="mt-5 text-2xl font-bold">
+                {card.title}
+              </h2>
 
-          <input
-            type="text"
-            placeholder="Qualification"
-            value={qualification}
-            onChange={(e) => setQualification(e.target.value)}
-            className="border rounded-xl p-4"
-          />
-
-          <input
-            type="date"
-            value={lastDate}
-            onChange={(e) => setLastDate(e.target.value)}
-            className="border rounded-xl p-4"
-          />
-
-          <input
-            type="text"
-            placeholder="Fee"
-            className="border rounded-xl p-4"
-          />
-
-          <input
-            type="text"
-            placeholder="Age Limit"
-            className="border rounded-xl p-4"
-          />
-
-          <input
-            type="text"
-            placeholder="Official Website"
-            className="border rounded-xl p-4"
-          />
-
-          <input
-            type="text"
-            placeholder="Notification PDF Link"
-            className="border rounded-xl p-4"
-          />
-
-          <button
-            onClick={saveJob}
-            className="rounded-xl bg-blue-600 py-4 font-bold text-white hover:bg-blue-700"
-          >
-            Save Job
-          </button>
+              <p className="mt-3 text-slate-600">
+                {card.description}
+              </p>
+            </Link>
+          ))}
         </div>
       </div>
     </main>
