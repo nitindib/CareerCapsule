@@ -1,3 +1,4 @@
+import AdminLayout from "@/components/admin/layout/AdminLayout";
 import Link from "next/link";
 import { getJobs } from "@/services/jobs";
 
@@ -5,7 +6,7 @@ export default async function JobsPage() {
   const jobs = await getJobs();
 
   return (
-    <main className="min-h-screen bg-slate-100 p-10">
+    <AdminLayout>
       <div className="mx-auto max-w-7xl">
 
         <div className="mb-8 flex items-center justify-between">
@@ -72,6 +73,9 @@ export default async function JobsPage() {
                   <th className="p-4 text-left">
                     Last Date
                   </th>
+                  <th className="p-4 text-left">
+  Action
+</th>
 
                 </tr>
 
@@ -101,6 +105,14 @@ export default async function JobsPage() {
                     <td className="p-4">
                       {job.application_last_date}
                     </td>
+                    <td className="p-4">
+  <Link
+    href={`/admin/jobs/${job.id}`}
+    className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+  >
+    Edit
+  </Link>
+</td>
 
                   </tr>
 
@@ -115,6 +127,6 @@ export default async function JobsPage() {
         )}
 
       </div>
-    </main>
+    </AdminLayout>
   );
 }
