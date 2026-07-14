@@ -79,3 +79,33 @@ export async function toggleFeatured(
 
   return error;
 }
+export async function updateJobStatus(
+  id: string,
+  status: string
+) {
+  const { error } = await supabase
+    .from("jobs")
+    .update({
+      status,
+    })
+    .eq("id", id);
+
+  return error;
+}
+export async function getDashboardStats() {
+  const jobs = await getJobs();
+
+  return {
+    total: jobs.length,
+    published: jobs.filter(
+      (job: any) => job.status === "published"
+    ).length,
+    pending: jobs.filter(
+      (job: any) => job.status === "pending"
+    ).length,
+    closed: jobs.filter(
+      (job: any) => job.status === "closed"
+    ).length,
+    recent: jobs.slice(0, 5),
+  };
+}

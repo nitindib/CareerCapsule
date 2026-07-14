@@ -1,3 +1,4 @@
+import StatusToggle from "@/components/admin/jobs/StatusToggle";
 import StatusBadge from "@/components/admin/jobs/StatusBadge";
 import FeaturedButton from "@/components/admin/jobs/FeaturedButton";
 import DeleteButton from "@/components/admin/jobs/DeleteButton";
@@ -144,21 +145,33 @@ export default async function JobsPage({
   />
 </td>
 <td className="p-4">
-  <StatusBadge status={job.status} />
+ <StatusToggle
+  id={job.id}
+  status={job.status}
+/>
 </td>
                    <td className="p-4">
   <div className="flex gap-3">
 
     <Link
-      href={`/admin/jobs/${job.id}`}
-      className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
-    >
-      Edit
-    </Link>
+    href={`/admin/jobs/${job.id}/view`}
+    className="rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700"
+  >
+    View
+  </Link>
 
-    <DeleteButton id={job.id} />
+  <Link
+    href={`/admin/jobs/${job.id}`}
+    className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+  >
+    Edit
+  </Link>
 
-  </div>
+  <DeleteButton id={job.id} />
+
+</div>
+
+  
 </td>
 
                   </tr>

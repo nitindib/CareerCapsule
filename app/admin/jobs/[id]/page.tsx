@@ -1,4 +1,5 @@
 import { getJobById } from "@/services/jobs";
+import EditJobForm from "@/components/admin/jobs/EditJobForm";
 
 export default async function EditJobPage({
   params,
@@ -11,12 +12,20 @@ export default async function EditJobPage({
 
   if (!job) {
     return (
-      <div className="p-10">
-        <h1 className="text-3xl font-bold">
-          Job Not Found
-        </h1>
-      </div>
-    );
+  <main className="min-h-screen bg-slate-100 p-10">
+
+    <div className="mx-auto max-w-5xl">
+
+      <h1 className="mb-8 text-4xl font-bold">
+        ✏️ Edit Job
+      </h1>
+
+      <EditJobForm job={job} />
+
+    </div>
+
+  </main>
+);
   }
 
   return (
