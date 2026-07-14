@@ -66,3 +66,16 @@ export async function deleteJob(id: string) {
 
   return error;
 }
+export async function toggleFeatured(
+  id: string,
+  featured: boolean
+) {
+  const { error } = await supabase
+    .from("jobs")
+    .update({
+      featured: !featured,
+    })
+    .eq("id", id);
+
+  return error;
+}

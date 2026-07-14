@@ -1,11 +1,18 @@
+import StatusBadge from "@/components/admin/jobs/StatusBadge";
+import FeaturedButton from "@/components/admin/jobs/FeaturedButton";
 import DeleteButton from "@/components/admin/jobs/DeleteButton";
 import AdminLayout from "@/components/admin/layout/AdminLayout";
 import Link from "next/link";
 import { getJobs } from "@/services/jobs";
 
-export default async function JobsPage() {
-  const jobs = await getJobs();
+export default async function JobsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ search?: string }>;
+}) {
+  const { search } = await searchParams;
 
+  const jobs = await getJobs(search);
   return (
     <AdminLayout>
       <div className="mx-auto max-w-7xl">
@@ -30,6 +37,24 @@ export default async function JobsPage() {
           </Link>
 
         </div>
+        <form className="mb-6 flex gap-3">
+
+  <input
+    type="text"
+    name="search"
+    defaultValue={search}
+    placeholder="🔍 Search jobs..."
+    className="w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+  />
+
+  <button
+    type="submit"
+    className="rounded-xl bg-slate-800 px-6 py-3 font-semibold text-white hover:bg-slate-900"
+  >
+    Search
+  </button>
+
+</form>
 
         {jobs.length === 0 ? (
 
@@ -75,6 +100,12 @@ export default async function JobsPage() {
                     Last Date
                   </th>
                   <th className="p-4 text-left">
+  Featured
+</th>
+<th className="p-4 text-left">
+  Status
+</th>
+                  <th className="p-4 text-left">
   Action
 </th>
 
@@ -106,6 +137,15 @@ export default async function JobsPage() {
                     <td className="p-4">
                       {job.application_last_date}
                     </td>
+                    <td className="p-4">
+  <FeaturedButton
+    id={job.id}
+    featured={job.featured}
+  />
+</td>
+<td className="p-4">
+  <StatusBadge status={job.status} />
+</td>
                    <td className="p-4">
   <div className="flex gap-3">
 
