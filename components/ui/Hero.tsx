@@ -1,47 +1,108 @@
 export default function Hero() {
   return (
-    <section className="max-w-7xl mx-auto px-6 py-24 text-center">
-      <span className="rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700">
-        🚀 India's Smart Career Platform
-      </span>
+    <section className="relative overflow-hidden bg-gradient-to-b from-blue-50 via-white to-white">
 
-      <h1 className="mt-8 text-6xl font-extrabold text-slate-900">
-        Build Your Career With AI
-      </h1>
+      {/* Background Blur */}
+      <div className="absolute left-0 top-0 h-72 w-72 rounded-full bg-blue-200/30 blur-3xl"></div>
+      <div className="absolute right-0 top-20 h-72 w-72 rounded-full bg-indigo-200/30 blur-3xl"></div>
 
-      <p className="mx-auto mt-6 max-w-3xl text-xl text-slate-600">
-        Latest Government Jobs, Results, Admit Cards, Syllabus,
-        Answer Keys and AI Career Guidance — all in one place.
-      </p>
+      <div className="relative mx-auto max-w-7xl px-6 py-20 text-center">
 
-      <div className="mx-auto mt-10 max-w-3xl">
-        <input
-          type="text"
-          placeholder="🔍 Search Jobs, Results, Admit Cards..."
-          className="w-full rounded-2xl border border-slate-300 bg-white px-6 py-4 text-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+        {/* Badge */}
+        <span className="inline-block rounded-full bg-blue-100 px-5 py-2 text-sm font-semibold text-blue-700 shadow-sm">
+          🚀 India's Smart Career Platform
+        </span>
 
-        <div className="mt-4 flex flex-wrap justify-center gap-3">
-          {["SSC CGL", "UPSC", "Railway", "Police", "Banking"].map((item) => (
-            <span
-              key={item}
-              className="rounded-full bg-slate-100 px-4 py-2 text-sm"
-            >
-              {item}
-            </span>
-          ))}
+        {/* Heading */}
+        <h1 className="mt-8 text-5xl font-extrabold leading-tight text-slate-900 md:text-7xl">
+          Everything You Need
+
+          <span className="block bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            For Your Career
+          </span>
+        </h1>
+
+        {/* Description */}
+        <p className="mx-auto mt-6 max-w-3xl text-xl leading-8 text-slate-600">
+          Latest Government Jobs, Results, Admit Cards, Answer Keys,
+          Syllabus and AI Career Guidance — all in one place.
+        </p>
+
+        {/* Search */}
+        <div className="mx-auto mt-10 max-w-3xl">
+
+          <div className="flex overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl">
+
+            <input
+              type="text"
+              placeholder="🔍 Search Jobs, Results, Admit Cards..."
+              className="flex-1 px-6 py-5 text-lg outline-none"
+            />
+
+            <button className="bg-gradient-to-r from-blue-600 to-indigo-600 px-8 font-semibold text-white transition hover:opacity-90">
+              Search
+            </button>
+
+          </div>
+
+          {/* Trending */}
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+
+            {[
+              "SSC CGL",
+              "Railway",
+              "UPSC",
+              "Police",
+              "Bank PO",
+            ].map((item) => (
+
+              <span
+                key={item}
+                className="cursor-pointer rounded-full border border-slate-200 bg-white px-5 py-2 text-sm font-medium shadow-sm transition hover:-translate-y-1 hover:border-blue-500 hover:bg-blue-600 hover:text-white"
+              >
+                {item}
+              </span>
+
+            ))}
+
+          </div>
+
         </div>
+
+        {/* Buttons */}
+
+        <div className="mt-10 flex flex-wrap justify-center gap-4">
+
+          <button className="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-4 font-semibold text-white shadow-lg transition hover:scale-105">
+
+            🔍 Find Jobs
+
+          </button>
+
+          <button className="rounded-2xl border border-slate-300 bg-white px-8 py-4 font-semibold shadow-md transition hover:-translate-y-1 hover:shadow-xl">
+
+            🤖 AI Career Guide
+
+          </button>
+
+        </div>
+
+        {/* Bottom Highlights */}
+
+        <div className="mt-12 flex flex-wrap justify-center gap-8 text-sm font-medium text-slate-500">
+
+          <span>✔ Daily Updates</span>
+
+          <span>✔ Free Forever</span>
+
+          <span>✔ AI Powered</span>
+
+          <span>✔ Trusted Platform</span>
+
+        </div>
+
       </div>
 
-      <div className="mt-10 flex justify-center gap-4">
-        <button className="rounded-xl bg-blue-600 px-8 py-4 font-semibold text-white hover:bg-blue-700">
-          Explore Jobs
-        </button>
-
-        <button className="rounded-xl border border-slate-300 px-8 py-4 font-semibold hover:bg-slate-100">
-          AI Career Guide
-        </button>
-      </div>
     </section>
   );
 }

@@ -93,6 +93,54 @@ export default function JobDetailsCard({
 
 </div>
 
+<div className="rounded-2xl border bg-slate-50 p-6">
+
+  <p className="text-sm text-slate-500">
+    💼 Vacancy
+  </p>
+
+  <h2 className="mt-2 text-xl font-bold">
+    {job.vacancy || "Not Available"}
+  </h2>
+
+</div>
+
+<div className="rounded-2xl border bg-slate-50 p-6">
+
+  <p className="text-sm text-slate-500">
+    💰 Salary
+  </p>
+
+  <h2 className="mt-2 text-xl font-bold">
+    {job.salary || "Not Available"}
+  </h2>
+
+</div>
+
+<div className="rounded-2xl border bg-slate-50 p-6">
+
+  <p className="text-sm text-slate-500">
+    🎂 Age Limit
+  </p>
+
+  <h2 className="mt-2 text-xl font-bold">
+    {job.age_limit || "Not Available"}
+  </h2>
+
+</div>
+
+<div className="rounded-2xl border bg-slate-50 p-6">
+
+  <p className="text-sm text-slate-500">
+    💵 Application Fee
+  </p>
+
+  <h2 className="mt-2 text-xl font-bold">
+    {job.application_fee || "Not Available"}
+  </h2>
+
+</div>
+
 </div>
 
 <div className="mt-10 rounded-2xl border bg-slate-50 p-8">
@@ -106,6 +154,36 @@ export default function JobDetailsCard({
   </p>
 
 </div>
+{job.selection_process && (
+
+<div className="mt-10 rounded-2xl border bg-slate-50 p-8">
+
+  <h2 className="text-2xl font-bold">
+    📚 Selection Process
+  </h2>
+
+  <p className="mt-4 whitespace-pre-wrap text-slate-700">
+    {job.selection_process}
+  </p>
+
+</div>
+
+)}
+{job.important_dates && (
+
+<div className="mt-10 rounded-2xl border bg-slate-50 p-8">
+
+  <h2 className="text-2xl font-bold">
+    📅 Important Dates
+  </h2>
+
+  <p className="mt-4 whitespace-pre-wrap text-slate-700">
+    {job.important_dates}
+  </p>
+
+</div>
+
+)}
 
 <div className="mt-10 flex flex-wrap gap-4">
     {job.apply_link && (

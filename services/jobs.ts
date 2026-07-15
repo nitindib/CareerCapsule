@@ -3,7 +3,10 @@ import { supabase } from "@/lib/supabase";
 // ======================
 // Get All Jobs
 // ======================
-export async function getJobs(search?: string) {
+export async function getJobs(
+  search?: string,
+  category?: string
+) {
   let query = supabase
     .from("jobs")
     .select("*")
@@ -14,6 +17,9 @@ export async function getJobs(search?: string) {
       `title.ilike.%${search}%,organization.ilike.%${search}%,post_name.ilike.%${search}%`
     );
   }
+  if (category && category !== "All") {
+  query = query.eq("category", category);
+}
 
   const { data, error } = await query;
 
@@ -108,4 +114,24 @@ export async function getDashboardStats() {
     ).length,
     recent: jobs.slice(0, 5),
   };
+}
+// ======================
+// Get Featured Jobs
+// ======================
+
+export async function getFeaturedJobs() {
+  const { data, error } = await supabase
+    .from("jobs")
+    .select("*")
+    .eq("featured", true)
+    .eq("status", "published")
+    .order("created_at", { ascending: false })
+    .limit(6);
+
+  if (error) {
+    console.error(error);
+    return [];
+  }
+
+  return data;
 }

@@ -1,33 +1,30 @@
 import Link from "next/link";
 import { getJobs } from "@/services/jobs";
 import StatusBadge from "@/components/admin/jobs/StatusBadge";
+
 export default async function LatestJobs() {
   const jobs = await getJobs();
 
   const latestJobs = jobs
-  .filter((job: any) => job.status === "published")
-  .sort(
-    (a: any, b: any) =>
-      new Date(b.created_at).getTime() -
-      new Date(a.created_at).getTime()
-  )
-  .slice(0, 6);
+    .filter((job: any) => job.status === "published")
+    .sort(
+      (a: any, b: any) =>
+        new Date(b.created_at).getTime() -
+        new Date(a.created_at).getTime()
+    )
+    .slice(0, 6);
 
   return (
-    <section className="mx-auto max-w-7xl px-6 py-20">
-
-      <div className="mb-8 flex items-center justify-between">
-
+    <section className="mx-auto max-w-7xl px-6 py-14">
+      <div className="mb-10 flex items-center justify-between">
         <div>
-
-          <h2 className="text-4xl font-bold">
+          <h2 className="text-4xl font-bold text-slate-900">
             🔥 Latest Government Jobs
           </h2>
 
           <p className="mt-2 text-slate-600">
             Latest published government jobs
           </p>
-
         </div>
 
         <Link
@@ -36,93 +33,125 @@ export default async function LatestJobs() {
         >
           View All →
         </Link>
-
       </div>
 
       <div className="grid gap-6">
         {latestJobs.length === 0 ? (
+          <div className="rounded-3xl bg-white p-10 text-center shadow">
+            <div className="text-6xl">📋</div>
 
-  <div className="rounded-2xl bg-white p-10 text-center shadow">
+            <h3 className="mt-5 text-3xl font-bold">
+              No Jobs Available
+            </h3>
 
-    <div className="text-6xl">📋</div>
+            <p className="mt-3 text-slate-600">
+              New government jobs will appear here soon.
+            </p>
+          </div>
+        ) : (
+          latestJobs.map((job: any) => (
+            <div
+              key={job.id}
+              className="group rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-blue-500 hover:shadow-2xl"
+            >
+              {/* Header */}
 
-    <h3 className="mt-5 text-3xl font-bold">
-      No Jobs Available
-    </h3>
+              <div className="flex flex-wrap items-start justify-between gap-6">
+                <div>
+                  <div className="flex items-center gap-3">
+                    <h3 className="text-3xl font-bold text-slate-900">
+                      {job.title}
+                    </h3>
 
-    <p className="mt-3 text-slate-600">
-      New government jobs will appear here soon.
-    </p>
+                    {job.featured && (
+                      <span className="rounded-full bg-yellow-100 px-3 py-1 text-xs font-bold text-yellow-700">
+                        ⭐ Featured
+                      </span>
+                    )}
+                  </div>
 
-  </div>
+                  <p className="mt-2 text-lg text-slate-600">
+                    {job.organization}
+                  </p>
+                </div>
 
-) : (
+                <StatusBadge status={job.status} />
+              </div>
 
-  latestJobs.map((job: any) => (
+              {/* Job Details */}
 
-    <div
-      key={job.id}
-      className="rounded-2xl bg-white p-6 shadow transition hover:shadow-lg"
-    >
+              <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="rounded-2xl bg-slate-50 p-4">
+                  <p className="text-sm text-slate-500">
+                    💼 Vacancy
+                  </p>
 
-      <div className="flex items-start justify-between">
+                  <h4 className="mt-2 font-bold">
+                    {job.vacancy || "N/A"}
+                  </h4>
+                </div>
 
-        <div>
+                <div className="rounded-2xl bg-slate-50 p-4">
+                  <p className="text-sm text-slate-500">
+                    💰 Salary
+                  </p>
 
-          <h3 className="text-2xl font-bold">
-            {job.title}
-          </h3>
+                  <h4 className="mt-2 font-bold">
+                    {job.salary || "N/A"}
+                  </h4>
+                </div>
 
-          <p className="mt-2 text-slate-600">
-            {job.organization}
-          </p>
+                <div className="rounded-2xl bg-slate-50 p-4">
+                  <p className="text-sm text-slate-500">
+                    🎓 Qualification
+                  </p>
 
-        </div>
+                  <h4 className="mt-2 font-bold">
+                    {job.qualification || "N/A"}
+                  </h4>
+                </div>
 
-        {job.featured && (
-          <span className="rounded-full bg-yellow-100 px-3 py-1 text-sm font-semibold text-yellow-700">
-            ⭐ Featured
-          </span>
+                <div className="rounded-2xl bg-slate-50 p-4">
+                  <p className="text-sm text-slate-500">
+                    📅 Last Date
+                  </p>
+
+                  <h4 className="mt-2 font-bold">
+                    {job.application_last_date || "N/A"}
+                  </h4>
+                </div>
+              </div>
+
+              {/* Footer */}
+
+              <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
+                <span className="rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700">
+                  {job.category || "Government Job"}
+                </span>
+
+                <div className="flex gap-3">
+                  {job.apply_link && (
+                    <Link
+                      href={job.apply_link}
+                      target="_blank"
+                      className="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3 font-semibold text-white transition hover:opacity-90"
+                    >
+                      🚀 Apply
+                    </Link>
+                  )}
+
+                  <Link
+                    href={`/jobs/${job.id}`}
+                    className="rounded-2xl border border-slate-300 px-6 py-3 font-semibold transition hover:bg-slate-100"
+                  >
+                    Details
+                  </Link>
+                </div>
+              </div>
+            </div>
+          ))
         )}
-
       </div>
-
-      <div className="mt-5 flex flex-wrap gap-3">
-                <span className="rounded-full bg-green-100 px-4 py-2 text-green-700">
-          {job.qualification}
-        </span>
-
-        <span className="rounded-full bg-blue-100 px-4 py-2 text-blue-700">
-          {job.category || "Government"}
-        </span>
-
-        <span className="rounded-full bg-red-100 px-4 py-2 text-red-700">
-          Last Date: {job.application_last_date}
-        </span>
-
-      </div>
-
-      <div className="mt-6 flex items-center justify-between">
-
-        <StatusBadge status={job.status} />
-
-        <Link
-          href={`/jobs/${job.id}`}
-          className="rounded-xl bg-blue-600 px-6 py-3 text-white transition hover:bg-blue-700"
-        >
-          View Details
-        </Link>
-
-      </div>
-
-    </div>
-
-  ))
-
-)}
-      </div>
-
     </section>
   );
 }
-     
