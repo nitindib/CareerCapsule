@@ -1,8 +1,8 @@
 import { supabase } from "@/lib/supabase";
 
-export async function getAdmitCards() {
+export async function getAnswerKeys() {
   const { data, error } = await supabase
-    .from("admit_cards")
+    .from("answer_keys")
     .select("*")
     .order("created_at", {
       ascending: false,
@@ -16,28 +16,16 @@ export async function getAdmitCards() {
   return data;
 }
 
-export async function getAdmitCardById(
+export async function getAnswerKeyById(
   id: string
 ) {
   const { data, error } = await supabase
-    .from("admit_cards")
+    .from("answer_keys")
     .select("*")
     .eq("id", id)
     .single();
 
-  if (error) {
-    return null;
-  }
+  if (error) return null;
 
   return data;
-}
-export async function getAdmitCardsCount() {
-  const { count } = await supabase
-    .from("admit_cards")
-    .select("*", {
-      count: "exact",
-      head: true,
-    });
-
-  return count ?? 0;
 }

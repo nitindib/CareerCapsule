@@ -135,3 +135,13 @@ export async function getFeaturedJobs() {
 
   return data;
 }
+export async function getJobsCount() {
+  const { count } = await supabase
+    .from("jobs")
+    .select("*", {
+      count: "exact",
+      head: true,
+    });
+
+  return count ?? 0;
+}

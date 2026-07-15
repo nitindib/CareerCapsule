@@ -90,3 +90,13 @@ export async function toggleFeaturedResult(
 
   return error;
 }
+export async function getResultsCount() {
+  const { count } = await supabase
+    .from("results")
+    .select("*", {
+      count: "exact",
+      head: true,
+    });
+
+  return count ?? 0;
+}

@@ -1,3 +1,4 @@
+import SearchBox from "@/components/ui/SearchBox";
 export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-blue-50 via-white to-white">
@@ -31,19 +32,7 @@ export default function Hero() {
         {/* Search */}
         <div className="mx-auto mt-10 max-w-3xl">
 
-          <div className="flex overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl">
-
-            <input
-              type="text"
-              placeholder="🔍 Search Jobs, Results, Admit Cards..."
-              className="flex-1 px-6 py-5 text-lg outline-none"
-            />
-
-            <button className="bg-gradient-to-r from-blue-600 to-indigo-600 px-8 font-semibold text-white transition hover:opacity-90">
-              Search
-            </button>
-
-          </div>
+          <SearchBox />
 
           {/* Trending */}
           <div className="mt-6 flex flex-wrap justify-center gap-3">
