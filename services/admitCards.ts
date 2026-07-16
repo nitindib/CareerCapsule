@@ -1,12 +1,21 @@
 import { supabase } from "@/lib/supabase";
 
-export async function getAdmitCards() {
-  const { data, error } = await supabase
+export async function getAdmitCards(search?: string) {
+
+  let query = supabase
     .from("admit_cards")
     .select("*")
     .order("created_at", {
       ascending: false,
     });
+
+  if (search && search.trim() !== "") {
+    query = query.or(
+      `title.ilike.%${search}%,organization.ilike.%${search}%`
+    );
+  }
+
+  const { data, error } = await query;
 
   if (error) {
     console.error(error);
@@ -31,6 +40,7 @@ export async function getAdmitCardById(
 
   return data;
 }
+
 export async function getAdmitCardsCount() {
   const { count } = await supabase
     .from("admit_cards")

@@ -128,3 +128,26 @@
     @apply font-sans;
   }
 }
+@keyframes ticker {
+
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+
+}
+
+.ticker {
+
+  animation: ticker 28s linear infinite;
+
+}
+
+.ticker:hover {
+
+  animation-play-state: paused;
+
+}

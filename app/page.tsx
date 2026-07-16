@@ -1,4 +1,5 @@
-import LiveStats from "@/components/ui/LiveStats";
+import TodayDashboard from "@/components/home/TodayDashboard";
+import BreakingTicker from "@/components/home/BreakingTicker";
 import TrendingSearches from "@/components/ui/TrendingSearches";
 import FeaturedJobs from "@/components/ui/FeaturedJobs";
 import Header from "@/components/ui/Header";
@@ -14,8 +15,9 @@ export default function Home() {
       <Header />
 
       <Hero />
-      <LiveStats />
-
+      <BreakingTicker />
+      <TodayDashboard />
+      
       <FeatureCards />
 
       <FeaturedJobs />

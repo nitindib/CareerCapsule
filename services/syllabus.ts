@@ -1,14 +1,17 @@
 import { supabase } from "@/lib/supabase";
 
 // ======================
-// Get All Answer Keys
+// Get All Syllabus
 // ======================
 
-export async function getAnswerKeys(search?: string) {
+export async function getSyllabus(search?: string) {
+
   let query = supabase
-    .from("answer_keys")
+    .from("syllabus")
     .select("*")
-    .order("created_at", { ascending: false });
+    .order("created_at", {
+      ascending: false,
+    });
 
   if (search && search.trim() !== "") {
     query = query.or(
@@ -27,18 +30,18 @@ export async function getAnswerKeys(search?: string) {
 }
 
 // ======================
-// Get Single Answer Key
+// Get Single Syllabus
 // ======================
 
-export async function getAnswerKeyById(id: string) {
+export async function getSyllabusById(id: string) {
+
   const { data, error } = await supabase
-    .from("answer_keys")
+    .from("syllabus")
     .select("*")
     .eq("id", id)
     .single();
 
   if (error) {
-    console.error(error);
     return null;
   }
 
@@ -46,12 +49,13 @@ export async function getAnswerKeyById(id: string) {
 }
 
 // ======================
-// Delete Answer Key
+// Delete
 // ======================
 
-export async function deleteAnswerKey(id: string) {
+export async function deleteSyllabus(id: string) {
+
   const { error } = await supabase
-    .from("answer_keys")
+    .from("syllabus")
     .delete()
     .eq("id", id);
 
@@ -59,15 +63,16 @@ export async function deleteAnswerKey(id: string) {
 }
 
 // ======================
-// Update Answer Key
+// Update
 // ======================
 
-export async function updateAnswerKey(
+export async function updateSyllabus(
   id: string,
   values: any
 ) {
+
   const { error } = await supabase
-    .from("answer_keys")
+    .from("syllabus")
     .update(values)
     .eq("id", id);
 
@@ -78,12 +83,13 @@ export async function updateAnswerKey(
 // Toggle Featured
 // ======================
 
-export async function toggleFeaturedAnswerKey(
+export async function toggleFeaturedSyllabus(
   id: string,
   featured: boolean
 ) {
+
   const { error } = await supabase
-    .from("answer_keys")
+    .from("syllabus")
     .update({
       featured: !featured,
     })
@@ -96,9 +102,10 @@ export async function toggleFeaturedAnswerKey(
 // Count
 // ======================
 
-export async function getAnswerKeysCount() {
+export async function getSyllabusCount() {
+
   const { count } = await supabase
-    .from("answer_keys")
+    .from("syllabus")
     .select("*", {
       count: "exact",
       head: true,
