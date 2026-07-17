@@ -10,7 +10,7 @@ import LinkButton from "@/components/admin/common/LinkButton";
 
 import StatusBadge from "@/components/admin/jobs/StatusBadge";
 
-import { getAdmitCardById } from "@/services/admitCards";
+import { getAnswerKeyById } from "@/services/answerKeys";
 
 type Props = {
   params: Promise<{
@@ -18,18 +18,20 @@ type Props = {
   }>;
 };
 
-export default async function ViewAdmitCardPage({
+export default async function ViewAnswerKeyPage({
   params,
 }: Props) {
+
   const { id } = await params;
 
-  const admitCard = await getAdmitCardById(id);
+  const answerKey = await getAnswerKeyById(id);
 
-  if (!admitCard) {
+  if (!answerKey) {
     notFound();
   }
 
   return (
+
     <AdminLayout>
 
       <div className="mx-auto max-w-7xl">
@@ -39,11 +41,11 @@ export default async function ViewAdmitCardPage({
           <div>
 
             <h1 className="text-4xl font-bold">
-              🎫 Admit Card Preview
+              📝 Answer Key Preview
             </h1>
 
             <p className="mt-2 text-slate-500">
-              Complete Admit Card Details
+              Complete Answer Key Details
             </p>
 
           </div>
@@ -51,14 +53,14 @@ export default async function ViewAdmitCardPage({
           <div className="flex gap-3">
 
             <Link
-              href="/admin/admit-cards"
+              href="/admin/answer-keys"
               className="rounded-xl bg-slate-700 px-6 py-3 text-white"
             >
               ← Back
             </Link>
 
             <Link
-              href={`/admin/admit-cards/${admitCard.id}`}
+              href={`/admin/answer-keys/${answerKey.id}`}
               className="rounded-xl bg-blue-600 px-6 py-3 text-white"
             >
               Edit
@@ -73,27 +75,28 @@ export default async function ViewAdmitCardPage({
 
             <Field
               label="Title"
-              value={admitCard.title}
+              value={answerKey.title}
             />
 
             <Field
               label="Organization"
-              value={admitCard.organization}
+              value={answerKey.organization}
             />
 
             <Field
               label="Exam Name"
-              value={admitCard.exam_name}
+              value={answerKey.exam_name}
             />
 
-            
+            <Field
+              label="Post Name"
+              value={answerKey.post_name}
+            />
 
             <Field
               label="Description"
-              value={admitCard.description}
+              value={answerKey.description}
             />
-
-            
 
           </SectionGrid>
 
@@ -105,17 +108,12 @@ export default async function ViewAdmitCardPage({
 
             <Field
               label="Release Date"
-              value={admitCard.release_date}
+              value={answerKey.release_date}
             />
 
             <Field
-              label="Admit Card Date"
-              value={admitCard.admit_card_date}
-            />
-
-            <Field
-              label="Exam Date"
-              value={admitCard.exam_date}
+              label="Objection Last Date"
+              value={answerKey.objection_last_date}
             />
 
           </SectionGrid>
@@ -124,12 +122,12 @@ export default async function ViewAdmitCardPage({
 
         <DetailCard title="⚙️ Status">
 
-          <SectionGrid cols={3}>
+          <SectionGrid cols={4}>
 
             <Field
               label="Featured"
               value={
-                admitCard.featured
+                answerKey.featured
                   ? "⭐ Featured"
                   : "☆ Normal"
               }
@@ -142,14 +140,19 @@ export default async function ViewAdmitCardPage({
               </p>
 
               <div className="mt-2">
-                <StatusBadge status={admitCard.status} />
+                <StatusBadge status={answerKey.status} />
               </div>
 
             </div>
 
             <Field
-              label="ID"
-              value={admitCard.id}
+              label="Views"
+              value={answerKey.views}
+            />
+
+            <Field
+              label="Answer Key ID"
+              value={answerKey.id}
             />
 
           </SectionGrid>
@@ -157,23 +160,23 @@ export default async function ViewAdmitCardPage({
         </DetailCard>
                 <DetailCard title="🔗 Important Links">
 
-          <SectionGrid>
+          <SectionGrid cols={3}>
 
             <Field
               label="Official Website"
               value={
                 <LinkButton
-                  href={admitCard.official_website}
+                  href={answerKey.official_website}
                   text="Official Website"
                 />
               }
             />
 
             <Field
-              label="Download Admit Card"
+              label="Download Answer Key"
               value={
                 <LinkButton
-                  href={admitCard.download_link}
+                  href={answerKey.download_link}
                   text="Download"
                 />
               }
@@ -183,7 +186,7 @@ export default async function ViewAdmitCardPage({
               label="Notification PDF"
               value={
                 <LinkButton
-                  href={admitCard.notification_pdf}
+                  href={answerKey.notification_pdf}
                   text="Notification PDF"
                 />
               }
@@ -193,27 +196,33 @@ export default async function ViewAdmitCardPage({
 
         </DetailCard>
 
-        <DetailCard title="📝 Description">
+        <DetailCard title="📝 Full Description">
 
-          <div className="rounded-xl border bg-slate-50 p-5 whitespace-pre-wrap">
+          <div className="rounded-xl border bg-slate-50 p-6 whitespace-pre-wrap">
 
-            {admitCard.description || "-"}
+            {answerKey.description || "-"}
 
           </div>
 
         </DetailCard>
-                <DetailCard title="⏰ System Information">
 
-          <SectionGrid cols={2}>
+        <DetailCard title="⏰ System Information">
+
+          <SectionGrid cols={3}>
 
             <Field
               label="Created At"
-              value={admitCard.created_at}
+              value={answerKey.created_at}
+            />
+
+            <Field
+              label="Updated At"
+              value={answerKey.updated_at}
             />
 
             <Field
               label="Record ID"
-              value={admitCard.id}
+              value={answerKey.id}
             />
 
           </SectionGrid>
@@ -223,5 +232,6 @@ export default async function ViewAdmitCardPage({
       </div>
 
     </AdminLayout>
+
   );
 }

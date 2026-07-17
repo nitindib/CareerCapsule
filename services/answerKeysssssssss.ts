@@ -1,12 +1,14 @@
 import { supabase } from "@/lib/supabase";
 
+// ======================
+// Get All Answer Keys
+// ======================
+
 export async function getAnswerKeys(search?: string) {
   let query = supabase
     .from("answer_keys")
     .select("*")
-    .order("created_at", {
-      ascending: false,
-    });
+    .order("created_at", { ascending: false });
 
   if (search && search.trim() !== "") {
     query = query.or(
@@ -24,9 +26,11 @@ export async function getAnswerKeys(search?: string) {
   return data;
 }
 
-export async function getAnswerKeyById(
-  id: string
-) {
+// ======================
+// Get Single Answer Key
+// ======================
+
+export async function getAnswerKeyById(id: string) {
   const { data, error } = await supabase
     .from("answer_keys")
     .select("*")
@@ -34,15 +38,18 @@ export async function getAnswerKeyById(
     .single();
 
   if (error) {
+    console.error(error);
     return null;
   }
 
   return data;
 }
 
-export async function deleteAnswerKey(
-  id: string
-) {
+// ======================
+// Delete Answer Key
+// ======================
+
+export async function deleteAnswerKey(id: string) {
   const { error } = await supabase
     .from("answer_keys")
     .delete()
@@ -50,6 +57,26 @@ export async function deleteAnswerKey(
 
   return error;
 }
+
+// ======================
+// Update Answer Key
+// ======================
+
+export async function updateAnswerKey(
+  id: string,
+  values: any
+) {
+  const { error } = await supabase
+    .from("answer_keys")
+    .update(values)
+    .eq("id", id);
+
+  return error;
+}
+
+// ======================
+// Toggle Featured
+// ======================
 
 export async function toggleFeaturedAnswerKey(
   id: string,
@@ -65,19 +92,9 @@ export async function toggleFeaturedAnswerKey(
   return error;
 }
 
-export async function updateAnswerKeyStatus(
-  id: string,
-  status: string
-) {
-  const { error } = await supabase
-    .from("answer_keys")
-    .update({
-      status,
-    })
-    .eq("id", id);
-
-  return error;
-}
+// ======================
+// Count
+// ======================
 
 export async function getAnswerKeysCount() {
   const { count } = await supabase
