@@ -51,3 +51,51 @@ export async function getAdmitCardsCount() {
 
   return count ?? 0;
 }
+// ======================
+// Delete Admit Card
+// ======================
+
+export async function deleteAdmitCard(id: string) {
+  const { error } = await supabase
+    .from("admit_cards")
+    .delete()
+    .eq("id", id);
+
+  return error;
+}
+
+// ======================
+// Toggle Featured
+// ======================
+
+export async function toggleFeaturedAdmitCard(
+  id: string,
+  featured: boolean
+) {
+  const { error } = await supabase
+    .from("admit_cards")
+    .update({
+      featured: !featured,
+    })
+    .eq("id", id);
+
+  return error;
+}
+
+// ======================
+// Update Status
+// ======================
+
+export async function updateAdmitCardStatus(
+  id: string,
+  status: string
+) {
+  const { error } = await supabase
+    .from("admit_cards")
+    .update({
+      status,
+    })
+    .eq("id", id);
+
+  return error;
+}

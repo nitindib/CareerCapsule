@@ -1,6 +1,7 @@
-import StatusToggle from "@/components/admin/jobs/StatusToggle";
+import { formatDate } from "@/lib/formatDate";
+import StatusToggle from "@/components/admin/shared/StatusToggle";
 import StatusBadge from "@/components/admin/jobs/StatusBadge";
-import FeaturedButton from "@/components/admin/jobs/FeaturedButton";
+import FeaturedButton from "@/components/admin/shared/FeaturedButton";
 import DeleteButton from "@/components/admin/jobs/DeleteButton";
 import AdminLayout from "@/components/admin/layout/AdminLayout";
 import Link from "next/link";
@@ -136,17 +137,19 @@ export default async function JobsPage({
                     </td>
 
                     <td className="p-4">
-                      {job.application_last_date}
+                      {formatDate(job.application_last_date)}
                     </td>
                     <td className="p-4">
   <FeaturedButton
-    id={job.id}
-    featured={job.featured}
-  />
+  id={job.id}
+  table="jobs"
+  featured={job.featured}
+/>
 </td>
 <td className="p-4">
  <StatusToggle
   id={job.id}
+  table="jobs"
   status={job.status}
 />
 </td>

@@ -1,6 +1,7 @@
 import AdminLayout from "@/components/admin/layout/AdminLayout";
 import Link from "next/link";
 import { getAnswerKeys } from "@/services/answerKeys";
+import { formatDate } from "@/lib/formatDate";
 
 export default async function AnswerKeysPage() {
 
@@ -67,7 +68,8 @@ export default async function AnswerKeysPage() {
                 </td>
 
                 <td className="p-4">
-                  {item.release_date || "-"}
+                  
+                  {formatDate(item.release_date)}
                 </td>
 
                 <td className="p-4">

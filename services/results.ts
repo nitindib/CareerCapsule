@@ -3,7 +3,6 @@ import { supabase } from "@/lib/supabase";
 // ======================
 // Get All Results
 // ======================
-
 export async function getResults(search?: string) {
   let query = supabase
     .from("results")
@@ -29,7 +28,6 @@ export async function getResults(search?: string) {
 // ======================
 // Get Single Result
 // ======================
-
 export async function getResultById(id: string) {
   const { data, error } = await supabase
     .from("results")
@@ -48,7 +46,6 @@ export async function getResultById(id: string) {
 // ======================
 // Delete Result
 // ======================
-
 export async function deleteResult(id: string) {
   const { error } = await supabase
     .from("results")
@@ -57,26 +54,10 @@ export async function deleteResult(id: string) {
 
   return error;
 }
-// ======================
-// Update Result
-// ======================
-
-export async function updateResult(
-  id: string,
-  values: any
-) {
-  const { error } = await supabase
-    .from("results")
-    .update(values)
-    .eq("id", id);
-
-  return error;
-}
 
 // ======================
 // Toggle Featured
 // ======================
-
 export async function toggleFeaturedResult(
   id: string,
   featured: boolean
@@ -90,6 +71,27 @@ export async function toggleFeaturedResult(
 
   return error;
 }
+
+// ======================
+// Update Status
+// ======================
+export async function updateResultStatus(
+  id: string,
+  status: string
+) {
+  const { error } = await supabase
+    .from("results")
+    .update({
+      status,
+    })
+    .eq("id", id);
+
+  return error;
+}
+
+// ======================
+// Results Count
+// ======================
 export async function getResultsCount() {
   const { count } = await supabase
     .from("results")

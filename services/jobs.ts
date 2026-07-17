@@ -129,9 +129,12 @@ export async function getFeaturedJobs() {
     .limit(6);
 
   if (error) {
-    console.error(error);
-    return [];
-  }
+  console.log("ERROR MESSAGE:", error.message);
+  console.log("ERROR DETAILS:", error.details);
+  console.log("ERROR HINT:", error.hint);
+
+  return [];
+}
 
   return data;
 }

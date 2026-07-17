@@ -1,5 +1,6 @@
+import { notFound } from "next/navigation";
 import { getJobById } from "@/services/jobs";
-import EditJobForm from "@/components/admin/jobs/EditJobForm";
+import JobForm from "@/components/admin/jobs/JobForm";
 
 export default async function EditJobPage({
   params,
@@ -11,46 +12,23 @@ export default async function EditJobPage({
   const job = await getJobById(id);
 
   if (!job) {
-    return (
-  <main className="min-h-screen bg-slate-100 p-10">
-
-    <div className="mx-auto max-w-5xl">
-
-      <h1 className="mb-8 text-4xl font-bold">
-        ✏️ Edit Job
-      </h1>
-
-      <EditJobForm job={job} />
-
-    </div>
-
-  </main>
-);
+    notFound();
   }
 
   return (
-    <div className="p-10">
+    <main className="min-h-screen bg-slate-100 p-10">
+      <div className="mx-auto max-w-5xl rounded-3xl bg-white p-8 shadow-xl">
 
-      <h1 className="text-4xl font-bold mb-8">
-        Edit Job
-      </h1>
+        <h1 className="mb-8 text-4xl font-bold">
+          ✏️ Edit Job
+        </h1>
 
-      <div className="rounded-xl bg-white p-6 shadow">
-
-        <p>
-          <b>Title:</b> {job.title}
-        </p>
-
-        <p className="mt-3">
-          <b>Organization:</b> {job.organization}
-        </p>
-
-        <p className="mt-3">
-          <b>Qualification:</b> {job.qualification}
-        </p>
+        <JobForm
+  mode="edit"
+  job={job}
+/>
 
       </div>
-
-    </div>
+    </main>
   );
 }

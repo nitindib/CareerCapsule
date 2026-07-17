@@ -1,25 +1,55 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
-export default function AdmitCardForm() {
+type Props = {
+  mode?: "new" | "edit";
+  admitCard?: any;
+};
+
+export default function AdmitCardForm({
+  mode = "new",
+  admitCard,
+}: Props) {
+  const isEdit = mode === "edit";
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  const [title, setTitle] = useState("");
-  const [organization, setOrganization] = useState("");
-  const [examDate, setExamDate] = useState("");
-  const [admitCardDate, setAdmitCardDate] = useState("");
+  const [title, setTitle] = useState(
+  admitCard?.title ?? ""
+);
+  const [organization, setOrganization] = useState(
+  admitCard?.organization ?? ""
+);
+  const [examDate, setExamDate] = useState(
+  admitCard?.exam_date ?? ""
+);
+  const [admitCardDate, setAdmitCardDate] = useState(
+  admitCard?.admit_card_date ?? ""
+);
 
-  const [downloadLink, setDownloadLink] = useState("");
-  const [officialWebsite, setOfficialWebsite] = useState("");
-  const [notificationPdf, setNotificationPdf] = useState("");
+  const [downloadLink, setDownloadLink] = useState(
+  admitCard?.download_link ?? ""
+);
+  const [officialWebsite, setOfficialWebsite] = useState(
+  admitCard?.official_website ?? ""
+);
+ const [notificationPdf, setNotificationPdf] = useState(
+  admitCard?.notification_pdf ?? ""
+);
+  const [description, setDescription] = useState(
+  admitCard?.description ?? ""
+);
 
-  const [description, setDescription] = useState("");
+  const [featured, setFeatured] = useState(
+  admitCard?.featured ?? false
+);
 
-  const [featured, setFeatured] = useState(false);
-
-  const [status, setStatus] = useState("pending");
+ const [status, setStatus] = useState(
+  admitCard?.status ?? "pending"
+);
   async function saveAdmitCard() {
 
   if (!title.trim()) {
@@ -29,7 +59,28 @@ export default function AdmitCardForm() {
 
   setLoading(true);
 
-  const { error } = await supabase
+  let error = null;
+
+if (isEdit) {
+  const result = await supabase
+    .from("admit_cards")
+    .update({
+      title,
+      organization,
+      exam_date: examDate,
+      admit_card_date: admitCardDate,
+      download_link: downloadLink,
+      official_website: officialWebsite,
+      notification_pdf: notificationPdf,
+      description,
+      featured,
+      status,
+    })
+    .eq("id", admitCard.id);
+
+  error = result.error;
+} else {
+  const result = await supabase
     .from("admit_cards")
     .insert([
       {
@@ -46,6 +97,9 @@ export default function AdmitCardForm() {
       },
     ]);
 
+  error = result.error;
+}
+
   setLoading(false);
 
   if (error) {
@@ -53,7 +107,14 @@ export default function AdmitCardForm() {
     return;
   }
 
-  alert("✅ Admit Card Saved Successfully!");
+  alert(
+  isEdit
+    ? "✅ Admit Card Updated Successfully!"
+    : "✅ Admit Card Saved Successfully!"
+);
+
+router.push("/admin/admit-cards");
+router.refresh();
 }
 return (
   <div className="grid gap-5">
@@ -163,7 +224,11 @@ return (
       disabled={loading}
       className="rounded-xl bg-blue-600 py-4 font-bold text-white hover:bg-blue-700 disabled:opacity-50"
     >
-      {loading ? "Saving..." : "Save Admit Card"}
+      {loading
+  ? "Saving..."
+  : isEdit
+  ? "Update Admit Card"
+  : "Save Admit Card"}
     </button>
 
   </div>

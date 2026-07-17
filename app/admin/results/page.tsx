@@ -1,122 +1,135 @@
+import StatusToggle from "@/components/admin/results/StatusToggle";
+import FeaturedButton from "@/components/admin/results/FeaturedButton";
+import DeleteButton from "@/components/admin/results/DeleteButton";
+import AdminLayout from "@/components/admin/layout/AdminLayout";
 import Link from "next/link";
 import { getResults } from "@/services/results";
 
-type Props = {
-  searchParams: Promise<{
-    search?: string;
-  }>;
-};
-
 export default async function ResultsPage({
   searchParams,
-}: Props) {
+}: {
+  searchParams: Promise<{ search?: string }>;
+}) {
   const { search } = await searchParams;
-
   const results = await getResults(search);
 
   return (
-    <main className="min-h-screen bg-slate-100 p-10">
-
+    <AdminLayout>
       <div className="mx-auto max-w-7xl">
 
         <div className="mb-8 flex items-center justify-between">
-
-          <h1 className="text-4xl font-bold">
-            🏆 Manage Results
-          </h1>
+          <div>
+            <h1 className="text-4xl font-bold">
+              📊 Manage Results
+            </h1>
+            <p className="mt-2 text-slate-600">
+              Total Results: {results.length}
+            </p>
+          </div>
 
           <Link
             href="/admin/results/new"
-            className="rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700"
+            className="rounded-xl bg-blue-600 px-6 py-3 font-bold text-white hover:bg-blue-700"
           >
-            + Add Result
+            + Add New Result
           </Link>
-
         </div>
 
-        <form className="mb-8 flex gap-3">
-
+        <form className="mb-6 flex gap-3">
           <input
             type="text"
             name="search"
             defaultValue={search}
-            placeholder="Search Results..."
-            className="w-full rounded-xl border border-slate-300 px-5 py-3"
+            placeholder="🔍 Search Results..."
+            className="w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
 
           <button
-            className="rounded-xl bg-slate-800 px-6 py-3 font-semibold text-white"
+            type="submit"
+            className="rounded-xl bg-slate-800 px-6 py-3 font-semibold text-white hover:bg-slate-900"
           >
             Search
           </button>
-
         </form>
 
-        <div className="overflow-hidden rounded-2xl bg-white shadow">
-
-          <table className="w-full">
-
-            <thead className="bg-slate-100">
-
-              <tr>
-
-                <th className="p-4 text-left">
-                  Title
-                </th>
-
-                <th className="p-4 text-left">
-                  Organization
-                </th>
-
-                <th className="p-4 text-left">
-                  Result Date
-                </th>
-
-                <th className="p-4 text-left">
-                  Status
-                </th>
-
-              </tr>
-
-            </thead>
-
-            <tbody>
-
-              {results.map((result: any) => (
-
-                <tr
-                  key={result.id}
-                  className="border-t"
-                >
-
-                  <td className="p-4">
-                    {result.title}
-                  </td>
-
-                  <td className="p-4">
-                    {result.organization}
-                  </td>
-
-                  <td className="p-4">
-                    {result.result_date}
-                  </td>
-
-                  <td className="p-4">
-                    {result.status}
-                  </td>
-
+        {results.length === 0 ? (
+          <div className="rounded-2xl bg-white p-10 text-center shadow-lg">
+            <div className="text-6xl">📊</div>
+            <h2 className="mt-5 text-3xl font-bold">
+              No Results Found
+            </h2>
+          </div>
+        ) : (
+          <div className="overflow-hidden rounded-2xl bg-white shadow-lg">
+            <table className="w-full">
+              <thead className="bg-slate-200">
+                <tr>
+                  <th className="p-4 text-left">Title</th>
+                  <th className="p-4 text-left">Organization</th>
+                  <th className="p-4 text-left">Result Date</th>
+                  <th className="p-4 text-left">Featured</th>
+                  <th className="p-4 text-left">Status</th>
+                  <th className="p-4 text-left">Action</th>
                 </tr>
+              </thead>
 
-              ))}
+              <tbody>
+                {results.map((result: any) => (
+                  <tr
+                    key={result.id}
+                    className="border-t hover:bg-slate-50"
+                  >
+                    <td className="p-4 font-semibold">
+                      {result.title}
+                    </td>
+                    <td className="p-4">
+                      {result.organization}
+                    </td>
+                    <td className="p-4">
+                      {result.result_date}
+                    </td>
 
-            </tbody>
+                    <td className="p-4">
+                      <FeaturedButton
+                        id={result.id}
+                        featured={result.featured}
+                      />
+                    </td>
 
-          </table>
+                    <td className="p-4">
+                      <StatusToggle
+                        id={result.id}
+                        status={result.status}
+                      />
+                    </td>
 
-        </div>
+                    <td className="p-4">
+                      <div className="flex gap-3">
+                        <Link
+                          href={`/admin/results/${result.id}/view`}
+                          className="rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700"
+                        >
+                          View
+                        </Link>
+
+                        <Link
+                          href={`/admin/results/${result.id}`}
+                          className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+                        >
+                          Edit
+                        </Link>
+
+                        <DeleteButton id={result.id} />
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
 
       </div>
-
-    </main>
+    </AdminLayout>
   );
 }
