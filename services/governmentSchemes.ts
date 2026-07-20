@@ -1,12 +1,14 @@
 import { supabase } from "@/lib/supabase";
 
 // ======================
-// Get All Syllabus
+// Get All Schemes
 // ======================
 
-export async function getSyllabus(search?: string) {
+export async function getGovernmentSchemes(
+  search?: string
+) {
   let query = supabase
-    .from("syllabus")
+    .from("government_schemes")
     .select("*")
     .order("created_at", {
       ascending: false,
@@ -14,7 +16,7 @@ export async function getSyllabus(search?: string) {
 
   if (search && search.trim() !== "") {
     query = query.or(
-      `title.ilike.%${search}%,organization.ilike.%${search}%,exam_name.ilike.%${search}%`
+      `title.ilike.%${search}%,scheme_name.ilike.%${search}%,ministry.ilike.%${search}%`
     );
   }
 
@@ -29,14 +31,14 @@ export async function getSyllabus(search?: string) {
 }
 
 // ======================
-// Get Single Syllabus
+// Get Single
 // ======================
 
-export async function getSyllabusById(
+export async function getGovernmentSchemeById(
   id: string
 ) {
   const { data, error } = await supabase
-    .from("syllabus")
+    .from("government_schemes")
     .select("*")
     .eq("id", id)
     .single();
@@ -52,11 +54,11 @@ export async function getSyllabusById(
 // Delete
 // ======================
 
-export async function deleteSyllabus(
+export async function deleteGovernmentScheme(
   id: string
 ) {
   const { error } = await supabase
-    .from("syllabus")
+    .from("government_schemes")
     .delete()
     .eq("id", id);
 
@@ -67,12 +69,12 @@ export async function deleteSyllabus(
 // Featured
 // ======================
 
-export async function toggleFeaturedSyllabus(
+export async function toggleFeaturedGovernmentScheme(
   id: string,
   featured: boolean
 ) {
   const { error } = await supabase
-    .from("syllabus")
+    .from("government_schemes")
     .update({
       featured: !featured,
     })
@@ -85,12 +87,12 @@ export async function toggleFeaturedSyllabus(
 // Status
 // ======================
 
-export async function updateSyllabusStatus(
+export async function updateGovernmentSchemeStatus(
   id: string,
   status: string
 ) {
   const { error } = await supabase
-    .from("syllabus")
+    .from("government_schemes")
     .update({
       status,
     })
@@ -103,33 +105,13 @@ export async function updateSyllabusStatus(
 // Count
 // ======================
 
-export async function getSyllabusCount() {
+export async function getGovernmentSchemesCount() {
   const { count } = await supabase
-    .from("syllabus")
+    .from("government_schemes")
     .select("*", {
       count: "exact",
       head: true,
     });
 
   return count ?? 0;
-}
-// ======================
-// Get Featured Syllabus
-// ======================
-
-export async function getFeaturedSyllabus() {
-  const { data, error } = await supabase
-    .from("syllabus")
-    .select("*")
-    .eq("featured", true)
-    .eq("status", "published")
-    .order("created_at", { ascending: false })
-    .limit(6);
-
-  if (error) {
-    console.error(error);
-    return [];
-  }
-
-  return data;
 }

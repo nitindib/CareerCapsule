@@ -13,8 +13,10 @@ const menu = [
   { name: "Previous Papers", href: "/admin/previous-papers", icon: "📝" },
 
   { name: "Admissions", href: "/admin/admissions", icon: "🎓" },
-  { name: "Schemes", href: "/admin/schemes", icon: "🏛️" },
-  { name: "Documents", href: "/admin/documents", icon: "📂" },
+  { name: "Government Schemes", href: "/admin/government-schemes", icon: "🏛️" },
+
+  { name: "Government Documents",
+  href: "/admin/government-documents", icon: "📂" },
 
   { name: "AI Career Guide", href: "/admin/ai-guide", icon: "🤖" },
 ];

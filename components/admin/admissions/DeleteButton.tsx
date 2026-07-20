@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { deleteSyllabus } from "@/services/syllabus";
+import { deleteAdmission } from "@/services/admissions";
 
 type Props = {
   id: string;
@@ -12,19 +12,19 @@ export default function DeleteButton({ id }: Props) {
 
   async function handleDelete() {
     const ok = confirm(
-      "Are you sure you want to delete this syllabus?"
+      "Are you sure you want to delete this admission?"
     );
 
     if (!ok) return;
 
-    const error = await deleteSyllabus(id);
+    const error = await deleteAdmission(id);
 
     if (error) {
       alert(error.message);
       return;
     }
 
-    alert("✅ Syllabus deleted successfully!");
+    alert("✅ Admission deleted successfully!");
 
     router.refresh();
   }

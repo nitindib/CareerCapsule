@@ -1,3 +1,4 @@
+import FeaturedSyllabus from "@/components/home/FeaturedSyllabus";
 import TodayDashboard from "@/components/home/TodayDashboard";
 import BreakingTicker from "@/components/home/BreakingTicker";
 import TrendingSearches from "@/components/ui/TrendingSearches";
@@ -25,6 +26,7 @@ export default function Home() {
       <LatestJobs />
 
       <LatestResults />
+      <FeaturedSyllabus />
 
       <TrendingSearches />
 

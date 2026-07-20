@@ -1,12 +1,14 @@
 import { supabase } from "@/lib/supabase";
 
 // ======================
-// Get All Syllabus
+// Get All Government Documents
 // ======================
 
-export async function getSyllabus(search?: string) {
+export async function getGovernmentDocuments(
+  search?: string
+) {
   let query = supabase
-    .from("syllabus")
+    .from("government_documents")
     .select("*")
     .order("created_at", {
       ascending: false,
@@ -14,7 +16,7 @@ export async function getSyllabus(search?: string) {
 
   if (search && search.trim() !== "") {
     query = query.or(
-      `title.ilike.%${search}%,organization.ilike.%${search}%,exam_name.ilike.%${search}%`
+      `title.ilike.%${search}%,category.ilike.%${search}%,required_for.ilike.%${search}%`
     );
   }
 
@@ -29,14 +31,14 @@ export async function getSyllabus(search?: string) {
 }
 
 // ======================
-// Get Single Syllabus
+// Get Single Government Document
 // ======================
 
-export async function getSyllabusById(
+export async function getGovernmentDocumentById(
   id: string
 ) {
   const { data, error } = await supabase
-    .from("syllabus")
+    .from("government_documents")
     .select("*")
     .eq("id", id)
     .single();
@@ -49,14 +51,14 @@ export async function getSyllabusById(
 }
 
 // ======================
-// Delete
+// Delete Government Document
 // ======================
 
-export async function deleteSyllabus(
+export async function deleteGovernmentDocument(
   id: string
 ) {
   const { error } = await supabase
-    .from("syllabus")
+    .from("government_documents")
     .delete()
     .eq("id", id);
 
@@ -64,15 +66,15 @@ export async function deleteSyllabus(
 }
 
 // ======================
-// Featured
+// Toggle Featured
 // ======================
 
-export async function toggleFeaturedSyllabus(
+export async function toggleFeaturedGovernmentDocument(
   id: string,
   featured: boolean
 ) {
   const { error } = await supabase
-    .from("syllabus")
+    .from("government_documents")
     .update({
       featured: !featured,
     })
@@ -82,15 +84,15 @@ export async function toggleFeaturedSyllabus(
 }
 
 // ======================
-// Status
+// Update Status
 // ======================
 
-export async function updateSyllabusStatus(
+export async function updateGovernmentDocumentStatus(
   id: string,
   status: string
 ) {
   const { error } = await supabase
-    .from("syllabus")
+    .from("government_documents")
     .update({
       status,
     })
@@ -100,12 +102,12 @@ export async function updateSyllabusStatus(
 }
 
 // ======================
-// Count
+// Get Count
 // ======================
 
-export async function getSyllabusCount() {
+export async function getGovernmentDocumentsCount() {
   const { count } = await supabase
-    .from("syllabus")
+    .from("government_documents")
     .select("*", {
       count: "exact",
       head: true,
@@ -113,17 +115,20 @@ export async function getSyllabusCount() {
 
   return count ?? 0;
 }
+
 // ======================
-// Get Featured Syllabus
+// Get Featured Government Documents
 // ======================
 
-export async function getFeaturedSyllabus() {
+export async function getFeaturedGovernmentDocuments() {
   const { data, error } = await supabase
-    .from("syllabus")
+    .from("government_documents")
     .select("*")
     .eq("featured", true)
     .eq("status", "published")
-    .order("created_at", { ascending: false })
+    .order("created_at", {
+      ascending: false,
+    })
     .limit(6);
 
   if (error) {

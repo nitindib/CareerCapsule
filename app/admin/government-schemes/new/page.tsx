@@ -1,7 +1,7 @@
 import AdminLayout from "@/components/admin/layout/AdminLayout";
-import SyllabusForm from "@/components/admin/syllabus/SyllabusForm";
+import GovernmentSchemeForm from "@/components/admin/government-schemes/GovernmentSchemeForm";
 
-export default function NewSyllabusPage() {
+export default function NewGovernmentSchemePage() {
   return (
     <AdminLayout>
       <div className="mx-auto max-w-5xl">
@@ -9,16 +9,16 @@ export default function NewSyllabusPage() {
         <div className="mb-8">
 
           <h1 className="text-4xl font-bold">
-            📚 Add New Syllabus
+            🏛 Add New Government Scheme
           </h1>
 
           <p className="mt-2 text-slate-600">
-            Create a new syllabus entry for your website.
+            Create a new government scheme entry for your website.
           </p>
 
         </div>
 
-        <SyllabusForm />
+        <GovernmentSchemeForm />
 
       </div>
     </AdminLayout>

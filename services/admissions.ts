@@ -1,12 +1,14 @@
 import { supabase } from "@/lib/supabase";
 
 // ======================
-// Get All Syllabus
+// Get All Admissions
 // ======================
 
-export async function getSyllabus(search?: string) {
+export async function getAdmissions(
+  search?: string
+) {
   let query = supabase
-    .from("syllabus")
+    .from("admissions")
     .select("*")
     .order("created_at", {
       ascending: false,
@@ -14,7 +16,7 @@ export async function getSyllabus(search?: string) {
 
   if (search && search.trim() !== "") {
     query = query.or(
-      `title.ilike.%${search}%,organization.ilike.%${search}%,exam_name.ilike.%${search}%`
+      `title.ilike.%${search}%,organization.ilike.%${search}%,course_name.ilike.%${search}%`
     );
   }
 
@@ -29,14 +31,14 @@ export async function getSyllabus(search?: string) {
 }
 
 // ======================
-// Get Single Syllabus
+// Get Single Admission
 // ======================
 
-export async function getSyllabusById(
+export async function getAdmissionById(
   id: string
 ) {
   const { data, error } = await supabase
-    .from("syllabus")
+    .from("admissions")
     .select("*")
     .eq("id", id)
     .single();
@@ -52,11 +54,11 @@ export async function getSyllabusById(
 // Delete
 // ======================
 
-export async function deleteSyllabus(
+export async function deleteAdmission(
   id: string
 ) {
   const { error } = await supabase
-    .from("syllabus")
+    .from("admissions")
     .delete()
     .eq("id", id);
 
@@ -67,12 +69,12 @@ export async function deleteSyllabus(
 // Featured
 // ======================
 
-export async function toggleFeaturedSyllabus(
+export async function toggleFeaturedAdmission(
   id: string,
   featured: boolean
 ) {
   const { error } = await supabase
-    .from("syllabus")
+    .from("admissions")
     .update({
       featured: !featured,
     })
@@ -85,12 +87,12 @@ export async function toggleFeaturedSyllabus(
 // Status
 // ======================
 
-export async function updateSyllabusStatus(
+export async function updateAdmissionStatus(
   id: string,
   status: string
 ) {
   const { error } = await supabase
-    .from("syllabus")
+    .from("admissions")
     .update({
       status,
     })
@@ -103,9 +105,9 @@ export async function updateSyllabusStatus(
 // Count
 // ======================
 
-export async function getSyllabusCount() {
+export async function getAdmissionsCount() {
   const { count } = await supabase
-    .from("syllabus")
+    .from("admissions")
     .select("*", {
       count: "exact",
       head: true,
@@ -113,17 +115,20 @@ export async function getSyllabusCount() {
 
   return count ?? 0;
 }
+
 // ======================
-// Get Featured Syllabus
+// Get Featured Admissions
 // ======================
 
-export async function getFeaturedSyllabus() {
+export async function getFeaturedAdmissions() {
   const { data, error } = await supabase
-    .from("syllabus")
+    .from("admissions")
     .select("*")
     .eq("featured", true)
     .eq("status", "published")
-    .order("created_at", { ascending: false })
+    .order("created_at", {
+      ascending: false,
+    })
     .limit(6);
 
   if (error) {
