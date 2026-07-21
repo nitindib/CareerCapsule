@@ -7,7 +7,7 @@ import Field from "@/components/admin/common/Field";
 import SectionGrid from "@/components/admin/common/SectionGrid";
 import LinkButton from "@/components/admin/common/LinkButton";
 import StatusBadge from "@/components/admin/jobs/StatusBadge";
-
+import { formatDate } from "@/lib/formatDate";
 import { getSyllabusById } from "@/services/syllabus";
 
 type Props = {
@@ -190,14 +190,14 @@ export default async function ViewSyllabusPage({
           <SectionGrid cols={3}>
 
             <Field
-              label="Created At"
-              value={syllabus.created_at}
-            />
+  label="Created At"
+  value={formatDate(syllabus.created_at)}
+/>
 
-            <Field
-              label="Updated At"
-              value={syllabus.updated_at}
-            />
+<Field
+  label="Updated At"
+  value={formatDate(syllabus.updated_at)}
+/>
 
             <Field
               label="Record ID"

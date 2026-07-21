@@ -1,4 +1,5 @@
 import { getResultById } from "@/services/results";
+import { formatDate } from "@/lib/formatDate";
 import Link from "next/link";
 
 export default async function ViewResultPage({
@@ -47,7 +48,7 @@ export default async function ViewResultPage({
 
           <Info title="Organization" value={result.organization} />
 
-          <Info title="Result Date" value={result.result_date} />
+          <Info title="Result Date" value={formatDate(result.result_date)} />
 
           <Info title="Result Link" value={result.result_link} />
 

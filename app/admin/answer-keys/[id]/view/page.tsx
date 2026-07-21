@@ -7,7 +7,7 @@ import DetailCard from "@/components/admin/common/DetailCard";
 import Field from "@/components/admin/common/Field";
 import SectionGrid from "@/components/admin/common/SectionGrid";
 import LinkButton from "@/components/admin/common/LinkButton";
-
+import { formatDate } from "@/lib/formatDate";
 import StatusBadge from "@/components/admin/jobs/StatusBadge";
 
 import { getAnswerKeyById } from "@/services/answerKeys";
@@ -107,14 +107,14 @@ export default async function ViewAnswerKeyPage({
           <SectionGrid>
 
             <Field
-              label="Release Date"
-              value={answerKey.release_date}
-            />
+  label="Release Date"
+  value={formatDate(answerKey.release_date)}
+/>
 
-            <Field
-              label="Objection Last Date"
-              value={answerKey.objection_last_date}
-            />
+<Field
+  label="Objection Last Date"
+  value={formatDate(answerKey.objection_last_date)}
+/>
 
           </SectionGrid>
 
@@ -211,14 +211,14 @@ export default async function ViewAnswerKeyPage({
           <SectionGrid cols={3}>
 
             <Field
-              label="Created At"
-              value={answerKey.created_at}
-            />
+  label="Created At"
+  value={formatDate(answerKey.created_at)}
+/>
 
-            <Field
-              label="Updated At"
-              value={answerKey.updated_at}
-            />
+<Field
+  label="Updated At"
+  value={formatDate(answerKey.updated_at)}
+/>
 
             <Field
               label="Record ID"

@@ -2,6 +2,7 @@ import Link from "next/link";
 import AdminLayout from "@/components/admin/layout/AdminLayout";
 import StatusBadge from "@/components/admin/jobs/StatusBadge";
 import { getJobById } from "@/services/jobs";
+import { formatDate } from "@/lib/formatDate";
 
 import DetailCard from "@/components/admin/common/DetailCard";
 import Field from "@/components/admin/common/Field";
@@ -126,51 +127,51 @@ export default async function JobPreviewPage({
 
         <DetailCard title="📅 Important Dates">
 
-          <SectionGrid>
+  <SectionGrid>
 
-            <Field
-              label="Application Start Date"
-              value={job.application_start_date}
-            />
+    <Field
+      label="Application Start Date"
+      value={formatDate(job.application_start_date)}
+    />
 
-            <Field
-              label="Application Last Date"
-              value={job.application_last_date}
-            />
+    <Field
+      label="Application Last Date"
+      value={formatDate(job.application_last_date)}
+    />
 
-            <Field
-              label="Fee Payment Last Date"
-              value={job.fee_payment_last_date}
-            />
+    <Field
+      label="Fee Payment Last Date"
+      value={formatDate(job.fee_payment_last_date)}
+    />
 
-            <Field
-              label="Correction Last Date"
-              value={job.correction_last_date}
-            />
+    <Field
+      label="Correction Last Date"
+      value={formatDate(job.correction_last_date)}
+    />
 
-            <Field
-              label="Exam Date"
-              value={job.exam_date}
-            />
+    <Field
+      label="Exam Date"
+      value={formatDate(job.exam_date)}
+    />
 
-            <Field
-              label="Admit Card Date"
-              value={job.admit_card_date}
-            />
+    <Field
+      label="Admit Card Date"
+      value={formatDate(job.admit_card_date)}
+    />
 
-            <Field
-              label="Result Date"
-              value={job.result_date}
-            />
+    <Field
+      label="Result Date"
+      value={formatDate(job.result_date)}
+    />
 
-            <Field
-              label="Important Dates"
-              value={job.important_dates}
-            />
+    <Field
+      label="Important Dates"
+      value={job.important_dates}
+    />
 
-          </SectionGrid>
+  </SectionGrid>
 
-        </DetailCard>
+</DetailCard>
                 <DetailCard title="💰 Eligibility & Fees">
 
           <SectionGrid>
@@ -358,15 +359,14 @@ export default async function JobPreviewPage({
           <SectionGrid cols={3}>
 
             <Field
-              label="Created At"
-              value={job.created_at}
-            />
+  label="Created At"
+  value={formatDate(job.created_at)}
+/>
 
-            <Field
-              label="Updated At"
-              value={job.updated_at}
-            />
-
+<Field
+  label="Updated At"
+  value={formatDate(job.updated_at)}
+/>
             <Field
               label="Last Status"
               value={job.status}

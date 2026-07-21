@@ -4,6 +4,7 @@ import DeleteButton from "@/components/admin/results/DeleteButton";
 import AdminLayout from "@/components/admin/layout/AdminLayout";
 import Link from "next/link";
 import { getResults } from "@/services/results";
+import { formatDate } from "@/lib/formatDate";
 
 export default async function ResultsPage({
   searchParams,
@@ -86,7 +87,7 @@ export default async function ResultsPage({
                       {result.organization}
                     </td>
                     <td className="p-4">
-                      {result.result_date}
+                      {formatDate(result.result_date)}
                     </td>
 
                     <td className="p-4">

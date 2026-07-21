@@ -7,7 +7,7 @@ import DetailCard from "@/components/admin/common/DetailCard";
 import Field from "@/components/admin/common/Field";
 import SectionGrid from "@/components/admin/common/SectionGrid";
 import LinkButton from "@/components/admin/common/LinkButton";
-
+import { formatDate } from "@/lib/formatDate";
 import StatusBadge from "@/components/admin/jobs/StatusBadge";
 
 import { getAdmitCardById } from "@/services/admitCards";
@@ -104,19 +104,19 @@ export default async function ViewAdmitCardPage({
           <SectionGrid>
 
             <Field
-              label="Release Date"
-              value={admitCard.release_date}
-            />
+  label="Release Date"
+  value={formatDate(admitCard.release_date)}
+/>
 
-            <Field
-              label="Admit Card Date"
-              value={admitCard.admit_card_date}
-            />
+<Field
+  label="Admit Card Date"
+  value={formatDate(admitCard.admit_card_date)}
+/>
 
-            <Field
-              label="Exam Date"
-              value={admitCard.exam_date}
-            />
+<Field
+  label="Exam Date"
+  value={formatDate(admitCard.exam_date)}
+/>
 
           </SectionGrid>
 
@@ -207,9 +207,9 @@ export default async function ViewAdmitCardPage({
           <SectionGrid cols={2}>
 
             <Field
-              label="Created At"
-              value={admitCard.created_at}
-            />
+  label="Created At"
+  value={formatDate(admitCard.created_at)}
+/>
 
             <Field
               label="Record ID"

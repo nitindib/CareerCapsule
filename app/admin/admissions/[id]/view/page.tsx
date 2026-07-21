@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-
+import { formatDate } from "@/lib/formatDate";
 import AdminLayout from "@/components/admin/layout/AdminLayout";
 import DetailCard from "@/components/admin/common/DetailCard";
 import Field from "@/components/admin/common/Field";
@@ -100,27 +100,29 @@ export default async function ViewAdmissionPage({
 
         <DetailCard title="📅 Important Dates">
 
-          <SectionGrid cols={2}>
+  <SectionGrid cols={2}>
 
-            <Field
-              label="Application Start Date"
-              value={admission.application_start_date}
-            />
+    <Field
+      label="Application Start Date"
+      value={formatDate(admission.application_start_date)}
+    />
 
-            <Field
-              label="Application Last Date"
-              value={admission.application_last_date}
-            />
+    <Field
+      label="Application Last Date"
+      value={formatDate(admission.application_last_date)}
+    />
 
-            <Field
-              label="Exam Date"
-              value={admission.exam_date}
-            />
+    <Field
+      label="Exam Date"
+      value={formatDate(admission.exam_date)}
+    />
 
-            <Field
-              label="Result Date"
-              value={admission.result_date}
-            />
+    <Field
+      label="Result Date"
+      value={formatDate(admission.result_date)}
+    />
+
+
 
           </SectionGrid>
 
@@ -222,15 +224,15 @@ export default async function ViewAdmissionPage({
 
           <SectionGrid cols={3}>
 
-            <Field
-              label="Created At"
-              value={admission.created_at}
-            />
+           <Field
+  label="Created At"
+  value={formatDate(admission.created_at)}
+/>
 
-            <Field
-              label="Updated At"
-              value={admission.updated_at}
-            />
+<Field
+  label="Updated At"
+  value={formatDate(admission.updated_at)}
+/>
 
             <Field
               label="Record ID"

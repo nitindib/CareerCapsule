@@ -7,7 +7,7 @@ import Field from "@/components/admin/common/Field";
 import SectionGrid from "@/components/admin/common/SectionGrid";
 import LinkButton from "@/components/admin/common/LinkButton";
 import StatusBadge from "@/components/admin/jobs/StatusBadge";
-
+import { formatDate } from "@/lib/formatDate";
 import { getPreviousPaperById } from "@/services/previousPapers";
 
 type Props = {
@@ -195,14 +195,14 @@ export default async function ViewPreviousPaperPage({
           <SectionGrid cols={3}>
 
             <Field
-              label="Created At"
-              value={paper.created_at}
-            />
+  label="Created At"
+  value={formatDate(paper.created_at)}
+/>
 
-            <Field
-              label="Updated At"
-              value={paper.updated_at}
-            />
+<Field
+  label="Updated At"
+  value={formatDate(paper.updated_at)}
+/>
 
             <Field
               label="Record ID"
