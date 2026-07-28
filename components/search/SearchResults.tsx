@@ -4,16 +4,25 @@ import { useState } from "react";
 import JobSearchCard from "./JobSearchCard";
 import ResultSearchCard from "./ResultSearchCard";
 import AdmitCardSearchCard from "./AdmitCardSearchCard";
+import AnswerKeySearchCard from "./AnswerKeySearchCard";
+import SyllabusSearchCard from "./SyllabusSearchCard";
+
 type Props = {
   jobs: any[];
   results: any[];
   admitCards: any[];
+  answerKeys: any[];
+  syllabus: any[];
+  
 };
 
 export default function SearchResults({
   jobs,
   results,
   admitCards,
+   answerKeys,
+  syllabus,
+ 
 }: Props) {
 
   const [tab, setTab] = useState("all");
@@ -32,7 +41,14 @@ tab === "all"
 }`}
 >
 
-All ({jobs.length + results.length + admitCards.length})
+All (
+  {jobs.length +
+    results.length +
+    admitCards.length +
+    answerKeys.length}+
+    syllabus.length 
+    
+)
 
 </button>
 
@@ -45,7 +61,7 @@ tab === "jobs"
 }`}
 >
 
-Jobs ({jobs.length})
+💼 Jobs ({jobs.length})
 
 </button>
 
@@ -58,7 +74,7 @@ tab === "results"
 }`}
 >
 
-Results ({results.length})
+📢 Results ({results.length})
 
 </button>
 
@@ -71,9 +87,32 @@ tab === "admit"
 }`}
 >
 
-Admit Cards ({admitCards.length})
+🎫 Admit Cards ({admitCards.length})
 
 </button>
+<button
+  onClick={() => setTab("answer")}
+  className={`rounded-xl px-5 py-3 font-semibold ${
+    tab === "answer"
+      ? "bg-blue-600 text-white"
+      : "bg-white shadow"
+  }`}
+>
+  📝 Answer Keys ({answerKeys.length})
+</button>
+<button
+  onClick={() => setTab("syllabus")}
+  className={`rounded-xl px-5 py-3 font-semibold ${
+    tab === "syllabus"
+      ? "bg-blue-600 text-white"
+      : "bg-white shadow"
+  }`}
+>
+  📘 Syllabus ({syllabus.length})
+</button>
+
+
+
 
 </div>
 {/* ================= JOBS ================= */}
@@ -81,9 +120,11 @@ Admit Cards ({admitCards.length})
 {(tab === "all" || tab === "jobs") && (
   <section className="space-y-5">
 
-    <h2 className="mb-4 text-3xl font-bold">
-      💼 Jobs
-    </h2>
+    <div className="mb-3 rounded-lg border-l-4 border-blue-600 bg-blue-50 px-3 py-2">
+  <h2 className="text-lg font-bold text-blue-700">
+    💼 Government Jobs ({jobs.length})
+  </h2>
+</div>
 
     {jobs.length === 0 ? (
 
@@ -112,9 +153,15 @@ Admit Cards ({admitCards.length})
 
 <section className="mt-14 space-y-5">
 
-<h2 className="mb-4 text-3xl font-bold">
-📢 Results
-</h2>
+<div className="mb-3 rounded-lg border-l-4 border-blue-600 bg-blue-50 px-3 py-2">
+
+  <h2 className="text-lg font-bold text-blue-700">
+
+    📢 Results ({results.length})
+
+  </h2>
+
+</div>
 
 {results.length === 0 ? (
 
@@ -144,9 +191,15 @@ result={result}
 
 <section className="mt-14 space-y-5">
 
-<h2 className="mb-4 text-3xl font-bold">
-🎫 Admit Cards
-</h2>
+<div className="mb-3 rounded-lg border-l-4 border-blue-600 bg-blue-50 px-3 py-2">
+
+  <h2 className="text-lg font-bold text-blue-700">
+
+   🎫 Admit Cards ({admitCards.length})
+
+  </h2>
+
+</div>
 
 {admitCards.length === 0 ? (
 
@@ -170,6 +223,79 @@ card={card}
 </section>
 
 )}
+{(tab === "all" || tab === "answer") && (
+
+<section className="mt-14 space-y-5">
+
+<div className="mb-3 rounded-lg border-l-4 border-blue-600 bg-blue-50 px-3 py-2">
+
+  <h2 className="text-lg font-bold text-blue-700">
+
+📝 Answer Keys ({answerKeys.length})
+
+  </h2>
+
+</div>
+
+{answerKeys.length === 0 ? (
+
+<div className="rounded-2xl bg-white p-8 shadow">
+No Answer Keys Found
+</div>
+
+) : (
+
+answerKeys.map((item: any) => (
+
+<AnswerKeySearchCard
+  key={item.id}
+  answerKey={item}
+/>
+
+))
+
+)}
+
+</section>
+
+)}
+{(tab === "all" || tab === "syllabus") && (
+
+<section className="mt-14 space-y-5">
+
+<div className="mb-3 rounded-lg border-l-4 border-blue-600 bg-blue-50 px-3 py-2">
+
+  <h2 className="text-lg font-bold text-blue-700">
+
+ 📘 Syllabus ({syllabus.length})
+
+  </h2>
+
+</div>
+
+{syllabus.length === 0 ? (
+
+<div className="rounded-2xl bg-white p-8 shadow">
+No Syllabus Found
+</div>
+
+) : (
+
+syllabus.map((item: any) => (
+
+<SyllabusSearchCard
+  key={item.id}
+  syllabus={item}
+/>
+
+))
+
+)}
+
+</section>
+
+)}
+
 </div>
 
 );

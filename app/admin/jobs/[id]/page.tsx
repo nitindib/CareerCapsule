@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getJobById } from "@/services/jobs";
 import JobForm from "@/components/admin/jobs/JobForm";
+import Link from "next/link";
 
 export default async function EditJobPage({
   params,

@@ -8,14 +8,14 @@ export async function getJobs(
   category?: string
 ) {
   let query = supabase
-    .from("jobs")
+    .from("jobs_v2")
     .select("*")
     .order("created_at", { ascending: false });
 
   if (search && search.trim() !== "") {
     query = query.or(
-      `title.ilike.%${search}%,organization.ilike.%${search}%,post_name.ilike.%${search}%`
-    );
+  `title.ilike.%${search}%,post_name.ilike.%${search}%,short_description.ilike.%${search}%`
+);
   }
   if (category && category !== "All") {
   query = query.eq("category", category);
@@ -36,7 +36,7 @@ export async function getJobs(
 // ======================
 export async function getJobById(id: string) {
   const { data, error } = await supabase
-    .from("jobs")
+    .from("jobs_v2")
     .select("*")
     .eq("id", id)
     .single();
@@ -54,7 +54,7 @@ export async function getJobById(id: string) {
 // ======================
 export async function updateJob(id: string, values: any) {
   const { error } = await supabase
-    .from("jobs")
+    .from("jobs_v2")
     .update(values)
     .eq("id", id);
 
@@ -66,7 +66,7 @@ export async function updateJob(id: string, values: any) {
 // ======================
 export async function deleteJob(id: string) {
   const { error } = await supabase
-    .from("jobs")
+    .from("jobs_v2")
     .delete()
     .eq("id", id);
 
@@ -77,7 +77,7 @@ export async function toggleFeatured(
   featured: boolean
 ) {
   const { error } = await supabase
-    .from("jobs")
+    .from("jobs_v2")
     .update({
       featured: !featured,
     })
@@ -90,7 +90,7 @@ export async function updateJobStatus(
   status: string
 ) {
   const { error } = await supabase
-    .from("jobs")
+    .from("jobs_v2")
     .update({
       status,
     })
@@ -121,7 +121,7 @@ export async function getDashboardStats() {
 
 export async function getFeaturedJobs() {
   const { data, error } = await supabase
-    .from("jobs")
+    .from("jobs_v2")
     .select("*")
     .eq("featured", true)
     .eq("status", "published")
@@ -140,7 +140,7 @@ export async function getFeaturedJobs() {
 }
 export async function getJobsCount() {
   const { count } = await supabase
-    .from("jobs")
+    .from("jobs_v2")
     .select("*", {
       count: "exact",
       head: true,

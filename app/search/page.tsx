@@ -3,6 +3,8 @@ import SearchResults from "@/components/search/SearchResults";
 import { getJobs } from "@/services/jobs";
 import { getResults } from "@/services/results";
 import { getAdmitCards } from "@/services/admitCards";
+import { getSyllabus } from "@/services/syllabus";
+import { getAnswerKeys } from "@/services/answerKeys";
 
 type Props = {
   searchParams: Promise<{
@@ -19,6 +21,8 @@ export default async function SearchPage({
   const jobs = await getJobs(q);
   const results = await getResults(q);
   const admitCards = await getAdmitCards(q);
+  const syllabus = await getSyllabus(q);
+const answerKeys = await getAnswerKeys(q);
 
   return (
 
@@ -37,10 +41,12 @@ export default async function SearchPage({
       </p>
 
       <SearchResults
-        jobs={jobs}
-        results={results}
-        admitCards={admitCards}
-      />
+  jobs={jobs}
+  results={results}
+  admitCards={admitCards}
+  syllabus={syllabus}
+  answerKeys={answerKeys}
+/>
 
     </main>
 

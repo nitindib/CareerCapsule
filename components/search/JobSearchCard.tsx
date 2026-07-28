@@ -1,3 +1,4 @@
+import { formatDate } from "@/lib/formatDate";
 import Link from "next/link";
 
 type Props = {
@@ -15,25 +16,28 @@ export default function JobSearchCard({ job }: Props) {
         </h3>
 
         <p className="mt-2 text-slate-600">
-          {job.organization}
+          {job.post_name || "-"}
         </p>
 
         <div className="mt-5 flex flex-wrap gap-3">
 
           <span className="rounded-full bg-blue-100 px-4 py-2 text-sm font-medium text-blue-700">
-            💼 Vacancy: {job.vacancy || "N/A"}
+            💼 Posts : {job.total_posts || "N/A"}
           </span>
 
           <span className="rounded-full bg-green-100 px-4 py-2 text-sm font-medium text-green-700">
-            🎓 {job.qualification || "N/A"}
-          </span>
+  🎓 Qualification :{" "}
+  {Array.isArray(job.qualification)
+    ? job.qualification.map((q: any) => q.details).join(", ")
+    : job.qualification?.details || "N/A"}
+</span>
 
           <span className="rounded-full bg-red-100 px-4 py-2 text-sm font-medium text-red-700">
-            📅 {job.application_last_date || "N/A"}
+            📅 Apply Last Date : {formatDate(job.application_last_date)}
           </span>
 
           <span className="rounded-full bg-purple-100 px-4 py-2 text-sm font-medium text-purple-700">
-            📂 {job.category || "Government"}
+            📍 {job.job_location || "All India"}
           </span>
 
         </div>

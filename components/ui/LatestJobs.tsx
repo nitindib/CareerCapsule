@@ -71,7 +71,7 @@ export default async function LatestJobs() {
                   </div>
 
                   <p className="mt-2 text-lg text-slate-600">
-                    {job.organization}
+                    {job.post_name}
                   </p>
                 </div>
 
@@ -87,7 +87,7 @@ export default async function LatestJobs() {
                   </p>
 
                   <h4 className="mt-2 font-bold">
-                    {job.vacancy || "N/A"}
+                    {job.total_posts || "N/A"}
                   </h4>
                 </div>
 
@@ -107,7 +107,7 @@ export default async function LatestJobs() {
                   </p>
 
                   <h4 className="mt-2 font-bold">
-                    {job.qualification || "N/A"}
+                    {job.qualification?.[0]?.type || "N/A"}
                   </h4>
                 </div>
 
@@ -126,7 +126,7 @@ export default async function LatestJobs() {
 
               <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
                 <span className="rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700">
-                  {job.category || "Government Job"}
+                  {job.job_location || "All India"}
                 </span>
 
                 <div className="flex gap-3">
