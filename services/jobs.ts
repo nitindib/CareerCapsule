@@ -14,7 +14,7 @@ export async function getJobs(
 
   if (search && search.trim() !== "") {
     query = query.or(
-  `title.ilike.%${search}%,post_name.ilike.%${search}%,short_description.ilike.%${search}%`
+  `title.ilike.%${search}%,post_name.ilike.%${search}%,short_description.ilike.%${search}%,seo_description.ilike.%${search}%`
 );
   }
   if (category && category !== "All") {
@@ -24,7 +24,9 @@ export async function getJobs(
   const { data, error } = await query;
 
   if (error) {
-    console.error(error);
+    console.log(error.message);
+console.log(error.details);
+console.log(error.hint);
     return [];
   }
 

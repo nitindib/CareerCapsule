@@ -110,6 +110,118 @@ const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
 
   try {
+    // ==============================
+// Auto SEO Description
+// ==============================
+
+const qualificationText = Array.isArray(qualification)
+  ? qualification
+      .map((item: any) =>
+        expandQualification(`${item.type} ${item.details}`)
+      )
+      .join(" ")
+  : "";
+const vacancyText = Array.isArray(vacancyDetails)
+  ? vacancyDetails
+      .map((item: any) => `${item.category} ${item.posts}`)
+      .join(" ")
+  : "";
+
+const ageText = Array.isArray(ageLimit)
+  ? ageLimit
+      .map((item: any) => `${item.type} ${item.age}`)
+      .join(" ")
+  : "";
+const selectionText = selectionProcess.join(" ");
+
+const documentText = documentsRequired.join(" ");
+
+const syllabusText = Array.isArray(syllabus)
+  ? syllabus
+      .map((item: any) => item.subject)
+      .join(" ")
+  : "";
+
+  function expandQualification(text: string) {
+  const t = text.toLowerCase();
+
+  let keywords = text;
+
+  if (t.includes("graduation") || t.includes("graduate") || t.includes("bachelor")) {
+    keywords += " Graduate Graduation Bachelor Degree Any Degree";
+  }
+
+  if (t.includes("intermediate") || t.includes("12th")) {
+    keywords += " Intermediate 12th Higher Secondary";
+  }
+
+  if (t.includes("10th") || t.includes("high school")) {
+    keywords += " High School 10th Matric";
+  }
+
+  if (t.includes("diploma")) {
+    keywords += " Polytechnic Diploma";
+  }
+
+  if (t.includes("b.tech") || t.includes("be")) {
+    keywords += " BTech BE Engineering Engineer";
+  }
+
+  if (t.includes("computer")) {
+    keywords += " Computer IT CCC O Level";
+  }
+
+  if (t.includes("typing")) {
+    keywords += " Typing Hindi Typing English Typing";
+  }
+
+  return keywords;
+}
+const autoSeoDescription = [
+  formData.title,
+  formData.post_name,
+  formData.short_description,
+  seoInformation.seo_description,
+  qualificationText,
+  vacancyText,
+  ageText,
+  selectionText,
+  documentText,
+  syllabusText,
+]
+  .filter(Boolean)
+  .join(" ");
+  // ==============================
+// Auto SEO Title
+// ==============================
+
+const autoSeoTitle =
+`${formData.title} | ${formData.post_name} | CareerCapsule`;
+
+
+// ==============================
+// Auto Slug
+// ==============================
+
+const autoSlug = `${formData.title}-${formData.post_name}`
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, "-")
+  .replace(/^-|-$/g, "");
+
+
+// ==============================
+// Auto SEO Keywords
+// ==============================
+
+const autoSeoKeywords = [
+  formData.title,
+  formData.post_name,
+  qualificationText,
+  vacancyText,
+  ageText,
+]
+.filter(Boolean)
+.join(", ");
     const payload = {
       // Basic Information
       title: formData.title,
@@ -149,10 +261,17 @@ result_date: formData.result_date,
       result_link: importantLinks.result_link || null,
 
       // SEO Information
-      seo_title: seoInformation.seo_title || null,
-      seo_description: seoInformation.seo_description || null,
-      seo_keywords: seoInformation.seo_keywords || null,
-      slug: seoInformation.slug || null,
+     seo_title:
+  seoInformation.seo_title || autoSeoTitle,
+
+seo_description:
+  seoInformation.seo_description || autoSeoDescription,
+
+seo_keywords:
+  seoInformation.seo_keywords || autoSeoKeywords,
+
+slug:
+  seoInformation.slug || autoSlug,
     };
 
     console.log("Updating ID:", initialData?.id);
