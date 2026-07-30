@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabase";
+import { searchDictionary } from "@/lib/searchDictionary";
 
 // ======================
 // Get All Jobs
@@ -12,14 +13,32 @@ export async function getJobs(
     .select("*")
     .order("created_at", { ascending: false });
 
-  if (search && search.trim() !== "") {
-    query = query.or(
-  `title.ilike.%${search}%,post_name.ilike.%${search}%,short_description.ilike.%${search}%,seo_description.ilike.%${search}%`
-);
-  }
-  if (category && category !== "All") {
-  query = query.eq("category", category);
+    if (search && search.trim() !== "") {
+
+  const keyword = search.trim().toLowerCase();
+
+const words = [
+  keyword,
+  ...(searchDictionary[keyword] || []),
+];
+
+// duplicate remove
+const uniqueWords = [...new Set(words)];
+
+const filters = uniqueWords.flatMap(word => [
+  `title.ilike.%${word}%`,
+  `post_name.ilike.%${word}%`,
+  `short_description.ilike.%${word}%`,
+  `seo_description.ilike.%${word}%`,
+  `seo_keywords.ilike.%${word}%`,
+  `search_keywords.ilike.%${word}%`,
+]);
+
+query = query.or(filters.join(","));
+
+  
 }
+  
 
   const { data, error } = await query;
 

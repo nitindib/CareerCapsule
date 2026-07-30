@@ -191,6 +191,21 @@ const autoSeoDescription = [
 ]
   .filter(Boolean)
   .join(" ");
+  const searchKeywords = [
+  formData.title,
+  formData.post_name,
+  formData.short_description,
+  qualificationText,
+  vacancyText,
+  ageText,
+  selectionText,
+  documentText,
+  syllabusText,
+  seoInformation.seo_keywords,
+]
+  .filter(Boolean)
+  .join(" ")
+  .toLowerCase();
   // ==============================
 // Auto SEO Title
 // ==============================
@@ -223,57 +238,57 @@ const autoSeoKeywords = [
 .filter(Boolean)
 .join(", ");
     const payload = {
-      // Basic Information
-      title: formData.title,
-      post_name: formData.post_name,
-      short_description: formData.short_description,
-      total_posts: formData.total_posts
-        ? parseInt(formData.total_posts)
-        : null,
-      salary: formData.salary,
-      job_location: formData.job_location,
-      featured: formData.featured,
-      status: formData.status,
-      application_start_date: formData.application_start_date,
-application_last_date: formData.application_last_date,
-fee_payment_last_date: formData.fee_payment_last_date,
-correction_last_date: formData.correction_last_date,
-exam_date: formData.exam_date,
-admit_card_date: formData.admit_card_date,
-result_date: formData.result_date,
+  // Basic Information
+  title: formData.title,
+  post_name: formData.post_name,
+  short_description: formData.short_description,
+  total_posts: formData.total_posts
+    ? parseInt(formData.total_posts)
+    : null,
+  salary: formData.salary,
+  job_location: formData.job_location,
+  featured: formData.featured,
+  status: formData.status,
 
-      // V2 Sections
-      vacancy_details: vacancyDetails,
-      application_fee: applicationFee,
-      age_limit: ageLimit,
-      qualification,
-      selection_process: selectionProcess,
-      exam_pattern: examPattern,
-      syllabus,
-      documents_required: documentsRequired,
-      faq,
+  application_start_date: formData.application_start_date,
+  application_last_date: formData.application_last_date,
+  fee_payment_last_date: formData.fee_payment_last_date,
+  correction_last_date: formData.correction_last_date,
+  exam_date: formData.exam_date,
+  admit_card_date: formData.admit_card_date,
+  result_date: formData.result_date,
 
-      // Important Links
-      apply_link: importantLinks.apply_link || null,
-      official_website: importantLinks.official_website || null,
-      notification_pdf: importantLinks.notification_pdf || null,
-      syllabus_pdf: importantLinks.syllabus_pdf || null,
-      result_link: importantLinks.result_link || null,
+  vacancy_details: vacancyDetails,
+  application_fee: applicationFee,
+  age_limit: ageLimit,
+  qualification,
+  selection_process: selectionProcess,
+  exam_pattern: examPattern,
+  syllabus,
+  documents_required: documentsRequired,
+  faq,
 
-      // SEO Information
-     seo_title:
-  seoInformation.seo_title || autoSeoTitle,
+  apply_link: importantLinks.apply_link || null,
+  official_website: importantLinks.official_website || null,
+  notification_pdf: importantLinks.notification_pdf || null,
+  syllabus_pdf: importantLinks.syllabus_pdf || null,
+  result_link: importantLinks.result_link || null,
 
-seo_description:
-  seoInformation.seo_description || autoSeoDescription,
+  seo_title:
+    seoInformation.seo_title || autoSeoTitle,
 
-seo_keywords:
-  seoInformation.seo_keywords || autoSeoKeywords,
+  seo_description:
+    seoInformation.seo_description || autoSeoDescription,
 
-slug:
-  seoInformation.slug || autoSlug,
-    };
+  seo_keywords:
+    seoInformation.seo_keywords || autoSeoKeywords,
 
+  slug:
+    seoInformation.slug || autoSlug,
+
+  search_keywords:
+    searchKeywords || null,
+};
     console.log("Updating ID:", initialData?.id);
     console.log("Payload:", payload);
 
