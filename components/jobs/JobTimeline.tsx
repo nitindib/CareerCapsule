@@ -4,35 +4,41 @@ type Props = {
 
 export default function JobTimeline({ job }: Props) {
   const steps = [
-    {
-      title: "Application Started",
-      date: job.application_start_date,
-    },
-    {
-      title: "Last Date",
-      date: job.application_last_date,
-    },
-    {
-      title: "Exam",
-      date: job.exam_date,
-    },
-    {
-      title: "Admit Card",
-      date: job.admit_card_date,
-    },
-    {
-      title: "Result",
-      date: job.result_date,
-    },
-  ];
+  {
+    title: "Application Start Date",
+    date: job.application_start_date,
+  },
+  {
+    title: "Application Last Date",
+    date: job.application_last_date,
+  },
+  {
+    title: "Fee Payment Last Date",
+    date: job.fee_payment_last_date,
+  },
+  {
+    title: "Correction Last Date",
+    date: job.correction_last_date,
+  },
+  {
+    title: "Exam Date",
+    date: job.exam_date,
+  },
+  {
+    title: "Admit Card Release Date",
+    date: job.admit_card_date,
+  },
+  {
+    title: "Result Declaration Date",
+    date: job.result_date,
+  },
+].filter((step) => step.date);
 
   const today = new Date();
 
   return (
     <div className="rounded-2xl border bg-white p-5 shadow-sm">
-      <h3 className="mb-5 text-lg font-bold">
-        🚀 Job Progress
-      </h3>
+      
       <h3 className="mb-5 flex items-center justify-between text-lg font-bold">
   <span>🚀 Job Progress</span>
 
@@ -48,7 +54,11 @@ export default function JobTimeline({ job }: Props) {
 let status = "upcoming";
 
 if (stepDate) {
-  if (step.title === "Last Date") {
+  if (
+    step.title === "Application Last Date" ||
+    step.title === "Fee Payment Last Date" ||
+    step.title === "Correction Last Date"
+  ) {
     status = today <= stepDate ? "running" : "completed";
   } else {
     status = today >= stepDate ? "completed" : "upcoming";
