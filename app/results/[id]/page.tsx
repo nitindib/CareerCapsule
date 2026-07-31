@@ -1,6 +1,5 @@
 import { getResultById } from "@/services/results";
-import ResultDetailsCard from "@/components/results/ResultDetailsCard";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 type Props = {
   params: Promise<{
@@ -19,11 +18,10 @@ export default async function ResultDetailsPage({
     notFound();
   }
 
-  return (
-    <main className="min-h-screen bg-slate-50 py-10">
-      <div className="mx-auto max-w-6xl px-6">
-        <ResultDetailsCard result={result} />
-      </div>
-    </main>
-  );
+  // Agar job_id hai to direct Job Page par bhej do
+  if (result.job_id) {
+    redirect(`/jobs/${result.job_id}`);
+  }
+
+  notFound();
 }

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+
 
 type Props = {
   isEdit?: boolean;
@@ -16,6 +17,11 @@ export default function ResultForm({
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
+  const [jobs, setJobs] = useState<any[]>([]);
+
+const [jobId, setJobId] = useState(
+  result?.job_id ?? ""
+);
 
   const [title, setTitle] = useState(
     result?.title ?? ""
@@ -60,6 +66,77 @@ export default function ResultForm({
     useState(
       result?.status ?? "pending"
     );
+    
+    // ======================
+// Auto SEO
+// ======================
+
+const autoSeoTitle =
+  `${title} | Result | CareerCapsule`;
+
+const autoSeoDescription = [
+  title,
+  organization,
+  description,
+  "Result",
+  "CareerCapsule",
+]
+  .filter(Boolean)
+  .join(" ");
+
+const autoSeoKeywords = [
+  title,
+  organization,
+  "Result",
+  "Merit List",
+  "Cutoff",
+  "Score Card",
+]
+  .filter(Boolean)
+  .join(", ");
+
+const autoSlug = title
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, "-")
+  .replace(/(^-|-$)/g, "");
+
+const searchKeywords = [
+  title,
+  organization,
+  description,
+  "Result",
+  "Score Card",
+  "Merit List",
+  "Cutoff",
+]
+  .filter(Boolean)
+  .join(", ");
+    
+useEffect(() => {
+  async function loadJobs() {
+    const { data } = await supabase
+      .from("jobs_v2")
+      .select(`
+id,
+title,
+post_name,
+organization,
+short_description,
+official_website,
+notification_pdf,
+seo_keywords
+`)
+      .eq("status", "published")
+      .order("created_at", {
+        ascending: false,
+      });
+
+    setJobs(data || []);
+  }
+
+  loadJobs();
+}, []);
+
       async function saveResult() {
     if (!title.trim()) {
       alert("Please enter Result Title");
@@ -73,6 +150,7 @@ export default function ResultForm({
       .insert([
         {
           title,
+          job_id: jobId,
           organization,
           result_date: resultDate,
           result_link: resultLink,
@@ -81,6 +159,11 @@ export default function ResultForm({
           description,
           featured,
           status,
+          seo_title: autoSeoTitle,
+seo_description: autoSeoDescription,
+seo_keywords: autoSeoKeywords,
+search_keywords: searchKeywords,
+slug: autoSlug,
         },
       ]);
 
@@ -109,6 +192,7 @@ export default function ResultForm({
       .from("results")
       .update({
         title,
+        job_id: jobId,
         organization,
         result_date: resultDate,
         result_link: resultLink,
@@ -117,6 +201,11 @@ export default function ResultForm({
         description,
         featured,
         status,
+        seo_title: autoSeoTitle,
+seo_description: autoSeoDescription,
+seo_keywords: autoSeoKeywords,
+search_keywords: searchKeywords,
+slug: autoSlug,
       })
       .eq("id", result.id);
 
@@ -153,6 +242,51 @@ export default function ResultForm({
           onChange={(e) => setOrganization(e.target.value)}
           className="rounded-xl border p-4"
         />
+        <select
+  value={jobId}
+  onChange={(e) => {
+    const id = e.target.value;
+
+    setJobId(id);
+
+    const selectedJob = jobs.find(
+      (job) => job.id === id
+    );
+
+    if (selectedJob) {
+      setTitle(selectedJob.title || "");
+      setOrganization(
+        selectedJob.organization || ""
+      );
+
+      setDescription(
+        selectedJob.short_description || ""
+      );
+
+      setOfficialWebsite(
+        selectedJob.official_website || ""
+      );
+
+      setNotificationPdf(
+        selectedJob.notification_pdf || ""
+      );
+    }
+  }}
+  className="rounded-xl border p-4"
+>
+  <option value="">
+    Select Related Job
+  </option>
+
+  {jobs.map((job) => (
+    <option
+  key={job.id}
+  value={job.id}
+>
+  {job.title} ({job.post_name})
+</option>
+  ))}
+</select>
 
         <div>
 

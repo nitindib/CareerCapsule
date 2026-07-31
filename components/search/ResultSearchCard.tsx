@@ -34,7 +34,7 @@ export default function ResultSearchCard({
       </div>
 
       <Link
-        href={`/results/${result.id}`}
+  href={`/jobs/${result.job_id}`}
         className="rounded-2xl bg-green-600 px-6 py-3 text-center font-semibold text-white transition hover:scale-105"
       >
         View Result →

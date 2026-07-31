@@ -56,7 +56,7 @@ export default async function ResultsPage({
               </p>
 
               <Link
-                href={`/results/${result.id}`}
+                href={`/jobs/${result.job_id}`}
                 className="mt-6 inline-block rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700"
               >
                 View Result →

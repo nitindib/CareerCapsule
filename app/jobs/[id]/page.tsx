@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { formatDate } from "@/lib/formatDate";
 import Link from "next/link";
+import JobTimeline from "@/components/jobs/JobTimeline";
 
 
 export default async function JobDetailsPage({
@@ -20,8 +21,35 @@ export default async function JobDetailsPage({
     .select("*")
     .eq("id", id)
     .single();
+    const { data: relatedResult } = await supabase
+  .from("results")
+  .select("*")
+  .eq("job_id", id)
+  .eq("status", "published")
+  .maybeSingle();
     
 
+
+// Fetch related Admit Card
+const { data: relatedAdmit } = await supabase
+  .from("admit_cards")
+  .select("*")
+  .eq("job_id", id)
+  .maybeSingle();
+
+// Fetch related Answer Key
+const { data: relatedAnswerKey } = await supabase
+  .from("answer_keys")
+  .select("*")
+  .eq("job_id", id)
+  .maybeSingle();
+
+// Fetch related Syllabus
+const { data: relatedSyllabus } = await supabase
+  .from("syllabus")
+  .select("*")
+  .eq("job_id", id)
+  .maybeSingle();
   if (error || !job) {
     notFound();
   }
@@ -102,11 +130,10 @@ export default async function JobDetailsPage({
 return (
   <div className="mx-auto max-w-7xl px-6 py-10 pb-32">
 
-    <div></div>
+    <div className="grid gap-8 lg:grid-cols-4">
 
       {/* LEFT */}
-
-      <div>
+      <div className="lg:col-span-3">
 
         <span className="inline-flex rounded-full bg-green-100 px-4 py-1 text-sm font-bold text-green-700">
           🟢 {job.status?.toUpperCase() || "PUBLISHED"}
@@ -125,7 +152,7 @@ return (
         </p>
         
 
-      </div>
+    
 
       
     {/* ===== CONTENT START ===== */}
@@ -267,6 +294,121 @@ return (
 </div>
 
 <div className="mt-12 grid gap-6 lg:grid-cols-2">
+
+  {/* ================= LATEST UPDATES ================= */}
+
+{(relatedResult ||
+  relatedAdmit ||
+  relatedAnswerKey ||
+  relatedSyllabus) && (
+
+<div className="mt-12">
+
+<h2 className="mb-8 text-3xl font-bold">
+🚀 Latest Updates
+</h2>
+
+<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+
+{relatedResult && (
+<div className="rounded-2xl border bg-green-50 p-6">
+<div className="text-3xl">🏆</div>
+<h3 className="mt-3 font-bold">Result Declared</h3>
+<p className="mt-2 text-sm">
+{relatedResult.title}
+</p>
+
+<Link
+href={`/results/${relatedResult.id}`}
+target="_blank"
+className="mt-4 inline-block rounded-lg bg-green-600 px-4 py-2 text-white"
+>
+View Result
+</Link>
+
+</div>
+)}
+
+{relatedAdmit && (
+<div className="rounded-2xl border bg-blue-50 p-6">
+<div className="text-3xl">🎫</div>
+
+<h3 className="mt-3 font-bold">
+Admit Card
+</h3>
+
+<p className="mt-2 text-sm">
+{relatedAdmit.title}
+</p>
+
+<a
+href={relatedAdmit.admit_card_link}
+target="_blank"
+className="mt-4 inline-block rounded-lg bg-blue-600 px-4 py-2 text-white"
+>
+Download
+</a>
+
+</div>
+)}
+
+{relatedAnswerKey && (
+<div className="rounded-2xl border bg-yellow-50 p-6">
+
+<div className="text-3xl">
+📝
+</div>
+
+<h3 className="mt-3 font-bold">
+Answer Key
+</h3>
+
+<p className="mt-2 text-sm">
+{relatedAnswerKey.title}
+</p>
+
+<a
+href={relatedAnswerKey.answer_key_link}
+target="_blank"
+className="mt-4 inline-block rounded-lg bg-yellow-600 px-4 py-2 text-white"
+>
+View
+</a>
+
+</div>
+)}
+
+{relatedSyllabus && (
+<div className="rounded-2xl border bg-purple-50 p-6">
+
+<div className="text-3xl">
+📘
+</div>
+
+<h3 className="mt-3 font-bold">
+Syllabus
+</h3>
+
+<p className="mt-2 text-sm">
+{relatedSyllabus.title}
+</p>
+
+<a
+href={relatedSyllabus.syllabus_pdf}
+target="_blank"
+className="mt-4 inline-block rounded-lg bg-purple-600 px-4 py-2 text-white"
+>
+Open
+</a>
+
+</div>
+)}
+
+</div>
+
+</div>
+
+)}
 
   {/* Vacancy Details */}
 
@@ -775,12 +917,73 @@ return (
       </a>
 
     )}
+    {relatedAdmit && (
+  <Link
+    href={`/admit-cards/${relatedAdmit.id}`}
+    className="rounded-2xl bg-indigo-600 p-5 text-center text-white shadow-lg hover:bg-indigo-700"
+  >
+    <div className="text-3xl">
+      🎫
+    </div>
+
+    <div className="mt-3 text-lg font-bold">
+      Admit Card
+    </div>
+  </Link>
+)}
+{relatedAnswerKey && (
+  <Link
+    href={`/answer-keys/${relatedAnswerKey.id}`}
+    className="rounded-2xl bg-orange-600 p-5 text-center text-white shadow-lg hover:bg-orange-700"
+  >
+    <div className="text-3xl">
+      📝
+    </div>
+
+    <div className="mt-3 text-lg font-bold">
+      Answer Key
+    </div>
+  </Link>
+)}
+{relatedSyllabus && (
+  <Link
+    href={`/syllabus/${relatedSyllabus.id}`}
+    className="rounded-2xl bg-purple-600 p-5 text-center text-white shadow-lg hover:bg-purple-700"
+  >
+    <div className="text-3xl">
+      📚
+    </div>
+
+    <div className="mt-3 text-lg font-bold">
+      Syllabus
+    </div>
+  </Link>
+)}
+    {relatedResult && (
+
+  <Link
+    href={`/results/${relatedResult.id}`}
+    className="rounded-2xl bg-green-600 p-5 text-center text-white shadow-lg transition hover:-translate-y-1 hover:bg-green-700"
+  >
+
+    <div className="text-3xl">
+      🏆
+    </div>
+
+    <div className="mt-3 text-lg font-bold">
+      View Result
+    </div>
+
+  </Link>
+
+)}
 
     
 
   </div>
 
 </div>
+
     {/* ❓ Frequently Asked Questions */}
 
 {(autoFaq.length > 0 || (job.faq && job.faq.length > 0)) && (
@@ -926,6 +1129,7 @@ View Details →
 </div>
 
 )}
+
 {/* ================= STICKY APPLY BAR ================= */}
 
 <div className="fixed bottom-0 left-0 right-0 z-50 border-t bg-white/95 backdrop-blur">
@@ -975,7 +1179,22 @@ View Details →
   </div>
 
 </div>
+</div>
+
+{/* RIGHT SIDEBAR */}
+
+<div className="lg:col-span-1">
+
+  <div className="sticky top-24">
+
+    <JobTimeline job={job} />
+
   </div>
+
+</div>
+
+</div>
+</div>
 
 
 );
