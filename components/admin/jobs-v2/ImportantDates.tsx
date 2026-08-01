@@ -65,8 +65,8 @@ export default function ImportantDates({
 
           <input
             type="date"
-            name="fee_last_date"
-            value={formData.fee_last_date || ""}
+            name="fee_payment_last_date"
+value={formData.fee_payment_last_date || ""}
             onChange={handleChange}
             className="w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
@@ -78,12 +78,12 @@ export default function ImportantDates({
           </label>
 
           <input
-            type="date"
-            name="correction_date"
-            value={formData.correction_date || ""}
-            onChange={handleChange}
-            className="w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+  type="date"
+  name="correction_last_date"
+  value={formData.correction_last_date || ""}
+  onChange={handleChange}
+  className="w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+/>
         </div>
 
         <div>
@@ -127,6 +127,32 @@ export default function ImportantDates({
             className="w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
+        <div>
+  <label className="mb-2 block font-semibold">
+    Answer Key Date
+  </label>
+
+  <input
+    type="date"
+    name="answer_key_date"
+    value={formData.answer_key_date || ""}
+    onChange={handleChange}
+    className="w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+  />
+</div>
+<div>
+  <label className="mb-2 block font-semibold">
+    Cut Off Date
+  </label>
+
+  <input
+    type="date"
+    name="cut_off_date"
+    value={formData.cut_off_date || ""}
+    onChange={handleChange}
+    className="w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+  />
+</div>
       </div>
     </div>
   );

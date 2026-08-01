@@ -5,7 +5,7 @@ type Props = {
 export default function JobTimeline({ job }: Props) {
   const steps = [
   {
-    title: "Application Start Date",
+    title: "Application Started",
     date: job.application_start_date,
   },
   {
@@ -20,17 +20,26 @@ export default function JobTimeline({ job }: Props) {
     title: "Correction Last Date",
     date: job.correction_last_date,
   },
-  {
-    title: "Exam Date",
-    date: job.exam_date,
-  },
-  {
+{
     title: "Admit Card Release Date",
     date: job.admit_card_date,
   },
   {
-    title: "Result Declaration Date",
+    title: "Exam Date",
+    date: job.exam_date,
+  },
+  
+  {
+    title: "Answer Key Release Date",
+    date: job.answer_key_date,
+  },
+  {
+    title: "Result Date",
     date: job.result_date,
+  },
+  {
+    title: "Cut Off Release Date",
+    date: job.cut_off_date,
   },
 ].filter((step) => step.date);
 

@@ -23,6 +23,7 @@ initialData?: any;
 }) {
 const [formData, setFormData] = useState({
 title: initialData?.title || "",
+ organization: initialData?.organization || "",
 post_name: initialData?.post_name || "",
 short_description: initialData?.short_description || "",
 total_posts: initialData?.total_posts || "",
@@ -34,6 +35,8 @@ fee_payment_last_date: initialData?.fee_payment_last_date || "",
 correction_last_date: initialData?.correction_last_date || "",
 exam_date: initialData?.exam_date || "",
 admit_card_date: initialData?.admit_card_date || "",
+answer_key_date: initialData?.answer_key_date || "",
+cut_off_date: initialData?.cut_off_date || "",
 result_date: initialData?.result_date || "",
 featured: initialData?.featured || false,
 status: initialData?.status || "draft",
@@ -179,6 +182,7 @@ const syllabusText = Array.isArray(syllabus)
 }
 const autoSeoDescription = [
   formData.title,
+  formData.organization,
   formData.post_name,
   formData.short_description,
   seoInformation.seo_description,
@@ -193,6 +197,7 @@ const autoSeoDescription = [
   .join(" ");
   const searchKeywords = [
   formData.title,
+  formData.organization,
   formData.post_name,
   formData.short_description,
   qualificationText,
@@ -231,6 +236,7 @@ const autoSlug = `${formData.title}-${formData.post_name}`
 const autoSeoKeywords = [
   formData.title,
   formData.post_name,
+  formData.organization,
   qualificationText,
   vacancyText,
   ageText,
@@ -240,6 +246,7 @@ const autoSeoKeywords = [
     const payload = {
   // Basic Information
   title: formData.title,
+  organization: formData.organization,
   post_name: formData.post_name,
   short_description: formData.short_description,
   total_posts: formData.total_posts
@@ -256,6 +263,8 @@ const autoSeoKeywords = [
   correction_last_date: formData.correction_last_date,
   exam_date: formData.exam_date,
   admit_card_date: formData.admit_card_date,
+  answer_key_date: formData.answer_key_date,
+  cut_off_date: formData.cut_off_date,
   result_date: formData.result_date,
 
   vacancy_details: vacancyDetails,
@@ -355,6 +364,20 @@ return ( <form onSubmit={handleSubmit} className="space-y-8">
           required
         />
       </div>
+      <div>
+  <label className="mb-2 block font-semibold">
+    Organization
+  </label>
+
+  <input
+    type="text"
+    name="organization"
+    value={formData.organization}
+    onChange={handleChange}
+    placeholder="SSC / UPSC / Railway / UPPSC"
+    className="w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+  />
+</div>
 
       <div>
         <label className="mb-2 block font-semibold">
