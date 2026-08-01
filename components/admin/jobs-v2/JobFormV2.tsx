@@ -15,6 +15,7 @@ import DocumentsRequired from "./DocumentsRequired";
 import FAQ from "./FAQ";
 import ImportantLinks from "./ImportantLinks";
 import SEOInformation from "./SEOInformation";
+import ExamStages from "./ExamStages";
 
 export default function JobFormV2({
 initialData,
@@ -457,10 +458,7 @@ return ( <form onSubmit={handleSubmit} className="space-y-8">
   </div>
 
   {/* All V2 Components */}
-  <ImportantDates
-    formData={formData}
-    handleChange={handleChange}
-  />
+  <ExamStages />
 
   <VacancyDetails
     vacancyDetails={vacancyDetails}

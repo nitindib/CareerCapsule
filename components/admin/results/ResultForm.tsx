@@ -254,14 +254,17 @@ slug: autoSlug,
     );
 
     if (selectedJob) {
-      setTitle(selectedJob.title || "");
+      setTitle(`${selectedJob.title} Result`);
       setOrganization(
         selectedJob.organization || ""
       );
+      setResultDate(
+  selectedJob.result_date || ""
+);
 
       setDescription(
-        selectedJob.short_description || ""
-      );
+`${selectedJob.title} Result has been released. Candidates can check their result, merit list, score card and cutoff from the official website.`
+);
 
       setOfficialWebsite(
         selectedJob.official_website || ""
