@@ -46,6 +46,7 @@ status: initialData?.status || "draft",
 const [vacancyDetails, setVacancyDetails] = useState(
 initialData?.vacancy_details || []
 );
+const [stages, setStages] = useState<any[]>([]);
 
 const [applicationFee, setApplicationFee] = useState(
 initialData?.application_fee || []
@@ -258,15 +259,31 @@ const autoSeoKeywords = [
   featured: formData.featured,
   status: formData.status,
 
-  application_start_date: formData.application_start_date,
-  application_last_date: formData.application_last_date,
-  fee_payment_last_date: formData.fee_payment_last_date,
-  correction_last_date: formData.correction_last_date,
-  exam_date: formData.exam_date,
-  admit_card_date: formData.admit_card_date,
-  answer_key_date: formData.answer_key_date,
-  cut_off_date: formData.cut_off_date,
-  result_date: formData.result_date,
+ application_start_date:
+  formData.application_start_date || null,
+
+application_last_date:
+  formData.application_last_date || null,
+
+fee_payment_last_date:
+  formData.fee_payment_last_date || null,
+
+correction_last_date:
+  formData.correction_last_date || null,
+
+exam_date:
+  formData.exam_date || null,
+  admit_card_date:
+  formData.admit_card_date || null,
+
+answer_key_date:
+  formData.answer_key_date || null,
+
+cut_off_date:
+  formData.cut_off_date || null,
+
+result_date:
+  formData.result_date || null,
 
   vacancy_details: vacancyDetails,
   application_fee: applicationFee,
@@ -306,6 +323,7 @@ const autoSeoKeywords = [
 
     if (initialData?.id) {
       // UPDATE existing job
+    
      response = await supabase
   .from("jobs_v2")
   .update(payload)
@@ -315,6 +333,18 @@ const autoSeoKeywords = [
 console.log("Updating with ID:", String(initialData.id));
     } else {
       // INSERT new job
+      console.log(payload);
+     
+        alert(JSON.stringify(payload, null, 2));
+      console.log(
+  "PAYLOAD JSON =",
+  JSON.stringify(payload, null, 2)
+);
+Object.entries(payload).forEach(([key, value]) => {
+  if (value === "") {
+    console.log("EMPTY STRING FOUND =>", key);
+  }
+});
       response = await supabase
         .from("jobs_v2")
         .insert([payload])
@@ -322,9 +352,97 @@ console.log("Updating with ID:", String(initialData.id));
     }
 
     console.log("Response:", response);
+// ===============================
+// Save Job Stages
+// ===============================
 
+const jobId =
+  initialData?.id ??
+  response.data?.[0]?.id;
+
+if (jobId) {
+
+  // Purane stages delete
+  await supabase
+    .from("job_stages")
+    .delete()
+    .eq("job_id", jobId);
+
+  // Naye insert
+  if (stages.length > 0) {
+
+   console.log("Stages Before Saving:", stages);
+   console.log("JOB ID =", jobId);
+
+console.log("Stages =", stages);
+    const stageResponse = await supabase
+  .from("job_stages")
+  .insert(
+    stages.map((stage: any) => {
+
+  console.log("Saving Stage =", stage);
+
+  return {
+
+    job_id: jobId,
+
+    stage_name: stage.stage_name,
+
+    display_order: stage.display_order,
+
+    is_active: stage.is_active,
+
+    application_start_date:
+      stage.stage_dates?.["Application Start Date"] || null,
+
+    application_last_date:
+      stage.stage_dates?.["Application Last Date"] || null,
+
+    fee_payment_last_date:
+      stage.stage_dates?.["Fee Payment Last Date"] || null,
+
+    correction_last_date:
+      stage.stage_dates?.["Correction Last Date"] || null,
+
+    exam_date:
+      stage.stage_dates?.["Exam Date"] || null,
+
+    admit_card_date:
+      stage.stage_dates?.["Admit Card Release Date"] || null,
+
+    answer_key_date:
+      stage.stage_dates?.["Answer Key Date"] || null,
+
+    result_date:
+      stage.stage_dates?.["Result Date"] || null,
+
+    cut_off_date:
+      stage.stage_dates?.["Cut Off Date"] || null,
+
+    document_verification_date:
+      stage.stage_dates?.["Document Verification Date"] || null,
+
+    medical_date:
+      stage.stage_dates?.["Medical Date"] || null,
+
+    joining_date:
+      stage.stage_dates?.["Joining Date"] || null,
+
+    custom_stage_dates: {},
+
+  };
+
+})
+);
+
+  }
+
+}
     if (response.error) {
-      console.error("Supabase Error:", response.error);
+      console.log("FULL RESPONSE =", response);
+console.log("SUPABASE ERROR =", JSON.stringify(response.error, null, 2));
+
+alert(JSON.stringify(response.error, null, 2));
       alert("Error saving job: " + response.error.message);
       return;
     }
@@ -458,7 +576,16 @@ return ( <form onSubmit={handleSubmit} className="space-y-8">
   </div>
 
   {/* All V2 Components */}
-  <ExamStages />
+  <ImportantDates
+  formData={formData}
+  handleChange={handleChange}
+/>
+
+  <ExamStages
+  jobId={initialData?.id}
+  value={stages}
+  onChange={setStages}
+/>
 
   <VacancyDetails
     vacancyDetails={vacancyDetails}

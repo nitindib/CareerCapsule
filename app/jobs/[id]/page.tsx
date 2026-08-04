@@ -3,7 +3,7 @@ import { supabase } from "@/lib/supabase";
 import { formatDate } from "@/lib/formatDate";
 import Link from "next/link";
 import JobTimeline from "@/components/jobs/JobTimeline";
-
+import JobStageTimeline from "@/components/jobs/JobStageTimeline";
 
 export default async function JobDetailsPage({
   params,
@@ -16,11 +16,28 @@ export default async function JobDetailsPage({
   // Fetch Current Job
   // ===========================
 
-  const { data: job, error } = await supabase
-    .from("jobs_v2")
-    .select("*")
-    .eq("id", id)
-    .single();
+ // ===========================
+// Fetch Current Job
+// ===========================
+
+const { data: job, error } = await supabase
+  .from("jobs_v2")
+  .select("*")
+  .eq("id", id)
+  .single();
+
+// ===========================
+// Fetch Stages
+// ===========================
+
+const { data: stages } = await supabase
+  .from("job_stages")
+  .select("*")
+  .eq("job_id", id)
+  .eq("is_active", true)
+  .order("display_order", {
+    ascending: true,
+  });
     const { data: relatedResult } = await supabase
   .from("results")
   .select("*")
@@ -1185,9 +1202,17 @@ View Details →
 
 <div className="lg:col-span-1">
 
-  <div className="sticky top-24">
+  <div className="sticky top-24 space-y-6">
 
     <JobTimeline job={job} />
+
+    {stages && stages.length > 0 && (
+
+      <JobStageTimeline
+        stages={stages}
+      />
+
+    )}
 
   </div>
 

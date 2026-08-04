@@ -56,18 +56,31 @@ console.log(error.hint);
 // Get Single Job
 // ======================
 export async function getJobById(id: string) {
-  const { data, error } = await supabase
+  // Job Data
+  const { data: job, error } = await supabase
     .from("jobs_v2")
     .select("*")
     .eq("id", id)
     .single();
 
-  if (error) {
+  if (error || !job) {
     console.error(error);
     return null;
   }
 
-  return data;
+  // Stage Data
+  const { data: stages } = await supabase
+    .from("job_stages")
+    .select("*")
+    .eq("job_id", id)
+    .order("display_order", {
+      ascending: true,
+    });
+
+  return {
+    ...job,
+    stages: stages || [],
+  };
 }
 
 // ======================

@@ -1,21 +1,27 @@
 "use client";
 
 import { useState } from "react";
+import StageDates from "./StageDates";
 
 type Props = {
-  stage: string;
+  stage: any;
   order: number;
   onDelete: () => void;
+  onChange?: (data: any) => void;
 };
 
 export default function StageCard({
   stage,
   order,
   onDelete,
+  onChange,
 }: Props) {
 
   const [showDates, setShowDates] = useState(false);
-  const [showUpdates, setShowUpdates] = useState(false);
+
+  const [dates, setDates] = useState<Record<string, string>>(
+    stage.stage_dates || {}
+  );
 
   return (
     <div className="rounded-2xl border bg-white p-6 shadow-sm">
@@ -23,67 +29,63 @@ export default function StageCard({
       <div className="flex items-center justify-between">
 
         <div>
+
           <h3 className="text-xl font-bold">
-            📌 {stage}
+            {order}. {stage.stage_name}
           </h3>
 
           <p className="text-sm text-slate-500">
-            Display Order : {order}
+            Exam Stage
           </p>
+
         </div>
 
-        <button
-          type="button"
-          onClick={onDelete}
-          className="rounded-lg bg-red-500 px-3 py-2 text-white hover:bg-red-600"
-        >
-          Delete
-        </button>
+        <div className="flex gap-3">
 
-      </div>
+          <button
+            type="button"
+            onClick={() => setShowDates(!showDates)}
+            className="rounded-lg bg-blue-600 px-4 py-2 text-white"
+          >
+            {showDates ? "Hide Dates" : "Manage Dates"}
+          </button>
 
-      <div className="mt-5 flex flex-wrap gap-3">
+          <button
+            type="button"
+            onClick={onDelete}
+            className="rounded-lg bg-red-600 px-4 py-2 text-white"
+          >
+            Delete
+          </button>
 
-        <button
-          type="button"
-          onClick={() => setShowDates(!showDates)}
-          className="rounded-lg bg-blue-600 px-4 py-2 text-white"
-        >
-          {showDates ? "Hide Dates" : "Manage Dates"}
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setShowUpdates(!showUpdates)}
-          className="rounded-lg bg-green-600 px-4 py-2 text-white"
-        >
-          {showUpdates ? "Hide Updates" : "Manage Updates"}
-        </button>
+        </div>
 
       </div>
 
       {showDates && (
-        <div className="mt-6 rounded-xl bg-slate-50 p-5">
-          <h4 className="mb-4 font-bold">
+
+        <div className="mt-6 rounded-xl border bg-slate-50 p-5">
+
+          <h4 className="mb-5 text-lg font-bold">
             📅 Stage Dates
           </h4>
 
-          <p className="text-slate-500">
-            (Next Step me Date Form yahan aayega)
-          </p>
-        </div>
-      )}
+          <StageDates
+            value={dates}
+            onChange={(data) => {
 
-      {showUpdates && (
-        <div className="mt-6 rounded-xl bg-slate-50 p-5">
-          <h4 className="mb-4 font-bold">
-            🔗 Stage Updates
-          </h4>
+              setDates(data);
 
-          <p className="text-slate-500">
-            (Next Step me Update Manager yahan aayega)
-          </p>
+              onChange?.({
+                ...stage,
+                stage_dates: data,
+              });
+
+            }}
+          />
+
         </div>
+
       )}
 
     </div>
