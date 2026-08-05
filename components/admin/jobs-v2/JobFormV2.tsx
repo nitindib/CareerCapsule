@@ -428,7 +428,25 @@ console.log("Stages =", stages);
     joining_date:
       stage.stage_dates?.["Joining Date"] || null,
 
-    custom_stage_dates: {},
+    custom_stage_dates: Object.fromEntries(
+  Object.entries(stage.stage_dates || {}).filter(
+    ([key]) =>
+      ![
+        "Application Start Date",
+        "Application Last Date",
+        "Fee Payment Last Date",
+        "Correction Last Date",
+        "Exam Date",
+        "Admit Card Release Date",
+        "Answer Key Date",
+        "Result Date",
+        "Cut Off Date",
+        "Document Verification Date",
+        "Medical Date",
+        "Joining Date",
+      ].includes(key)
+  )
+),
 
   };
 

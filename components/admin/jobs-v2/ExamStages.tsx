@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import StageCard from "./StageCard";
 
@@ -35,6 +35,9 @@ export default function ExamStages({
   value,
   onChange,
 }: Props) {
+
+  // ✅ NEW
+  const [customStageName, setCustomStageName] = useState("");
 
   useEffect(() => {
 
@@ -98,7 +101,7 @@ export default function ExamStages({
 
             "Joining Date":
               item.joining_date || "",
-
+ ...(item.custom_stage_dates || {}),
           },
 
         }));
@@ -137,7 +140,36 @@ export default function ExamStages({
 
   }
 
+  // ✅ NEW
+  function addCustomStage() {
 
+    if (!customStageName.trim()) return;
+
+    if (
+      value.find(
+        (item) =>
+          item.stage_name.toLowerCase() ===
+          customStageName.toLowerCase()
+      )
+    ) {
+      alert("Stage already exists.");
+      return;
+    }
+
+    onChange([
+      ...value,
+      {
+        stage_name: customStageName,
+        display_order: value.length + 1,
+        custom_stage: true,
+        is_active: true,
+        stage_dates: {},
+      },
+    ]);
+
+    setCustomStageName("");
+
+  }
 
   function deleteStage(index: number) {
 
@@ -146,8 +178,6 @@ export default function ExamStages({
     );
 
   }
-
-
 
   return (
 
@@ -161,7 +191,7 @@ export default function ExamStages({
 
       </div>
 
-
+      {/* Default Stage Buttons */}
 
       <div className="mb-6 flex flex-wrap gap-3">
 
@@ -180,7 +210,31 @@ export default function ExamStages({
 
       </div>
 
+      {/* ✅ Custom Stage */}
 
+      <div className="mb-8 flex gap-3">
+
+        <input
+          type="text"
+          placeholder="Custom Stage Name"
+          value={customStageName}
+          onChange={(e) =>
+            setCustomStageName(e.target.value)
+          }
+          className="flex-1 rounded-xl border border-slate-300 px-4 py-3"
+        />
+
+        <button
+          type="button"
+          onClick={addCustomStage}
+          className="rounded-xl bg-green-600 px-5 py-3 text-white hover:bg-green-700"
+        >
+          + Add Custom Stage
+        </button>
+
+      </div>
+
+      {/* Stage Cards */}
 
       <div className="space-y-4">
 
@@ -193,8 +247,6 @@ export default function ExamStages({
           </div>
 
         )}
-
-
 
         {value.map((stage, index) => (
 

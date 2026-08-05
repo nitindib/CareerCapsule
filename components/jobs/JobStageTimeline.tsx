@@ -136,6 +136,28 @@ function StageAccordion({
               date={stage.cutoff_date}
             />
           )}
+          {/* Custom Dates */}
+
+{stage.custom_stage_dates &&
+  Object.keys(
+    typeof stage.custom_stage_dates === "string"
+      ? JSON.parse(stage.custom_stage_dates)
+      : stage.custom_stage_dates
+  ).map((key) => {
+
+    const dates =
+      typeof stage.custom_stage_dates === "string"
+        ? JSON.parse(stage.custom_stage_dates)
+        : stage.custom_stage_dates;
+
+    return (
+      <TimelineRow
+        key={key}
+        title={key}
+        date={dates[key]}
+      />
+    );
+  })}
 
         </div>
 
