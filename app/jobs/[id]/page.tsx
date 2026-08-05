@@ -1167,11 +1167,24 @@ View Details →
 
     <div className="flex gap-3">
 
+      {job.official_website && (
+
+  <a
+    href={job.official_website}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="rounded-xl border border-slate-500 px-5 py-3 font-semibold text-slate-700 hover:bg-slate-100"
+  >
+    🌐 Official Website
+  </a>
+
+)}
       {job.notification_pdf && (
 
         <a
           href={job.notification_pdf}
           target="_blank"
+          rel="noopener noreferrer"
           className="rounded-xl border border-red-500 px-5 py-3 font-semibold text-red-600 hover:bg-red-50"
         >
           Notification
@@ -1184,6 +1197,7 @@ View Details →
         <a
           href={job.apply_link}
           target="_blank"
+          rel="noopener noreferrer"
           className="rounded-xl bg-blue-600 px-7 py-3 font-bold text-white hover:bg-blue-700"
         >
           🚀 Apply Online
